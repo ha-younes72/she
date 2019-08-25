@@ -4,9 +4,136 @@ import { API_URL, API_KEY } from '../../constants/api';
 import { goHome } from '../../utils/navigation'
 import { ToastAndroid, Alert } from "react-native";
 import { Navigation } from 'react-native-navigation';
-import * as authActions from '../authentication/actions';
+//import * as authActions from '../authentication/actions';
 import AsyncStorage from '@react-native-community/async-storage';
 
+
+export function retrieveAllCoursesSuccess(res) {
+	return {
+		type: types.RETRIEVE_ALL_COURSES_SUCCESS,
+		data: res.data,
+		meta: res.meta
+	};
+}
+
+export function retrieveAllCoursesFail(res) {
+	return {
+		type: types.RETRIEVE_ALL_COURSES_FAIL,
+		message: res.msg,
+	};
+}
+
+export function retrieveAllCourses() {
+	return function (dispatch) {
+		console.log(API_URL + 'courses/get_all_courses')
+		axios.get(API_URL + 'courses/get_all_courses')
+			.then(res => {
+				console.log('AllCoursesResponse: ', res)
+				dispatch(retrieveAllCoursesSuccess({ data: res.data.data, meta: res.data.meta }));
+			})
+			.catch(error => {
+				console.log("Error AllCoursesResponse: ", error.response); //eslint-disable-line
+				dispatch(retrieveAllCoursesFail({ msg: 'قادر به دریافت تمامی دوره ها نبودیم ' }));
+				Alert.alert('خطای سرور', 'قادر به دریافت تمامی دوره ها نبودیم ')
+
+				/*if (error.response.status === 422) {
+					dispatch(signinUserFail({ msg: error.response.data.errors.mobile[0] }));
+					Alert.alert('خطای سرور', error.response.data.errors.mobile[0])
+				}
+				if (error.response.status === 403) {
+					dispatch(signinUserFail({ msg: error.response.data.data.message }));
+					Alert.alert('خطای سرور', error.response.data.data.message)
+				}*/
+			});
+	};
+}
+
+export function retrieveMyCoursesSuccess(res) {
+	return {
+		type: types.RETRIEVE_MY_COURSES_SUCCESS,
+		data: res.data,
+		//meta: res.meta
+	};
+}
+
+export function retrieveMyCoursesFail(res) {
+	return {
+		type: types.RETRIEVE_MY_COURSES_FAIL,
+		message: res.msg,
+	};
+}
+
+async function retrieveDetails(urls) {
+	//crss = []
+	crss = await urls.map((crs, index) => {
+		console.log(API_URL + 'courses/' + crs.course_id)
+		axios
+			.get(API_URL + 'courses/' + crs.course_id)
+			.then(res => {
+				//crss.concat(res.data.data)
+				console.log('Crs Response: ', res.data.data)
+				return res.data.data
+			})
+			.catch(error => {
+				console.log('Crs Error: ', error.response ? error.response : error)
+			})
+	})
+	return crss
+}
+
+export function retrieveMyCourses(token, id) {
+	return function (dispatch) {
+		console.log(API_URL + 'userpanel/get_user_courses/' + id + '?api_token=' + token)
+		axios.get(API_URL + 'userpanel/get_user_courses/' + id + '?api_token=' + token)
+			.then(res => {
+				//(async () => {
+				//	crss = ['jkh']
+				res.data.data.learnings.data.map((crs, index) => {
+					console.log(API_URL + 'courses/' + crs.course_id)
+					axios
+						.get(API_URL + 'courses/' + crs.course_id)
+						.then(res1 => {
+							dispatch(retrieveMyCoursesSuccess({ data: res1.data.data }));
+							//crss.concat(res.data.data)
+							console.log('Crs Response: ', res1.data.data)
+							//crss.concat(res.data.data)
+						})
+						.catch(error => {
+							console.log('Crs Error: ', error.response ? error.response : error)
+						})
+				})
+				//console.log('CRSS: ', crss)
+				//return crss
+				//})
+				//().then((res1) => {
+				console.log('MyCoursesResponse: ', res)
+				//console.log('MyRetrieveResponse: ', res1)
+				//dispatch(retrieveMyCoursesSuccess({ data: res1 }));
+				//})
+				/*
+				retrieveDetails(res.data.data.learnings.data)
+					.then(res1 => {
+						console.log('MyRetrieveResponse: ', res1)
+						dispatch(retrieveMyCoursesSuccess({ data: res1 }));
+					})
+				*/
+			})
+			.catch(error => {
+				console.log("Error MyCoursesResponse: ", error.response ? err.response : error); //eslint-disable-line
+				dispatch(retrieveMyCoursesFail({ msg: 'قادر به دریافت دوره های شما نبودیم ' }));
+				Alert.alert('خطای سرور', 'قادر به دریافت دوره های شما نبودیم ')
+
+				/*if (error.response.status === 422) {
+					dispatch(signinUserFail({ msg: error.response.data.errors.mobile[0] }));
+					Alert.alert('خطای سرور', error.response.data.errors.mobile[0])
+				}
+				if (error.response.status === 403) {
+					dispatch(signinUserFail({ msg: error.response.data.data.message }));
+					Alert.alert('خطای سرور', error.response.data.data.message)
+				}*/
+			});
+	};
+}
 
 export function addPhotoSuccess(imgUri) {
 	return {
@@ -17,13 +144,11 @@ export function addPhotoSuccess(imgUri) {
 
 export function addPhoto(img, user) {
 	return async function (dispatch) {
-		const jdata = await AsyncStorage.getItem(user.email);
-		var data = JSON.parse(jdata)
-		console.log('data: ', data)
+		const data = await AsyncStorage.getItem(user.email);
 		if (data === null) {
 			await AsyncStorage.setItem(user.email, JSON.stringify({
 				newObservations: [{
-					img: img
+					img: 'file://' + img
 				}]
 			}))
 				.then(() => {
@@ -36,25 +161,16 @@ export function addPhoto(img, user) {
 				})
 		} else {
 			if (data.newObservations) {
-				console.log("Adding New Observation")
-				data.newObservations = [...data.newObservations, { img: img }]
-				console.log("String to be saved: ", JSON.stringify(data))
+				data.newObservations = [...data.newObservations, { img: 'file://' + img }]
 				await AsyncStorage.setItem(user.email, JSON.stringify(data))
 					.then(() => {
 						dispatch(addPhotoSuccess(img));
-					})
-					.catch((err) => {
-						Alert.alert('Could not save locally', err);
 					})
 			} else {
-				console.log("Setting New Observation")
-				data.newObservations = [{ img: img }]
+				data.newObservations = [{ img: 'file://' + img }]
 				await AsyncStorage.setItem(user.email, JSON.stringify(data))
 					.then(() => {
 						dispatch(addPhotoSuccess(img));
-					})
-					.catch((err) => {
-						Alert.alert('Could not save locally', err);
 					})
 			}
 		}
@@ -72,13 +188,12 @@ export function addTimeandLocSuccess(time, lon, lat) {
 
 export function addTimeandLoc(time, lon, lat, user, currentIndex) {
 	return async function (dispatch) {
-		//AsyncStorage.removeItem(user.email)
 		//= null
 		var jdata = await AsyncStorage.getItem(user.email)
 
-		console.log('currentIndex: ', currentIndex)
+		//console.log('data: ',data)
 		const data = JSON.parse(jdata)
-		console.log('jdata: ', data)
+		//console.log('jdata: ',jdata)
 		if (data === null) {
 			console.log('Nothing')
 		}
@@ -205,7 +320,7 @@ export function retrieveObservationsSuccess(res) {
 
 export function retrieveObservations(status, user, token) {
 	return async function (dispatch) {
-		if (status) {
+		if (!status) {
 			//online
 
 			//console.log(API_URL + 'observations')
@@ -230,7 +345,7 @@ export function retrieveObservations(status, user, token) {
 					const data = JSON.parse(jdata)
 					console.log('Load Obsrv: ', data)
 					if (data === null) {
-						Alert.alert('No local data', 'You have no observations, you can add one by pressing Log.')
+						Alert.alert('No data', 'You have no observations, you can add one by pressing Log.')
 					} else {
 						if (data.observations) {
 							dispatch(retrieveObservationsSuccess(data.observations))
@@ -248,16 +363,14 @@ export function retrieveObservations(status, user, token) {
 			//_loadObservations(user)
 			const jdata = await AsyncStorage.getItem(user.email)
 			if (jdata === null) {
-				Alert.alert('No local data', 'You have no observations, you can add one by pressing Log.')
+				Alert.alert('No data', 'You have no observations, you can add one by pressing Log.')
 			} else {
 				const data = JSON.parse(jdata)
-				console.log('Load Obsrv1: ', data)
+				console.log('Load Obsrv: ', data)
 				if (data.observations) {
-					console.log('Load Obsrv2: ', data)
 					dispatch(retrieveObservationsSuccess(data.observations))
 				}
 				if (data.newObservations) {
-					console.log('Load Obsrv3: ', data)
 					dispatch(retrieveNewObservationsSuccess(data.newObservations, data.newObservations.length - 1))
 				}
 			}
@@ -266,91 +379,37 @@ export function retrieveObservations(status, user, token) {
 }
 
 async function _saveObservations(data, user) {
-	const jdata = await AsyncStorage.getItem(user.email)
-	if (jdata !== null) {
-		const ndata = JSON.parse(jdata)
-		if (ndata.newObservations) {
-			await AsyncStorage.setItem(user.email, JSON.stringify({ observations: data, newObservations: ndata.newObservations }))
-				.then(() => {
-				})
-				.catch(err => {
-					console.log('error:', err);
-				})
-		} else {
-			await AsyncStorage.setItem(user.email, JSON.stringify({ observations: data }))
-				.then(() => {
-				})
-				.catch(err => {
-					console.log('error:', err);
-				})
-		}
-	} else {
-		await AsyncStorage.setItem(user.email, JSON.stringify({ observations: data }))
-			.then(() => {
-			})
-			.catch(err => {
-				console.log('error:', err);
-			})
-	}
-}
-
-async function _saveSyncObservations(data, user) {
 	await AsyncStorage.setItem(user.email, JSON.stringify({ observations: data }))
 		.then(() => {
+			//console.log("The user has been stored locallkky")
+			//goHome();
 		})
 		.catch(err => {
-			console.log('error:', err);
+			//alert('error: jhggkj', err);
 		})
 }
 
-export function syncObservationsSuccess(res) {
-	return {
-		type: types.SYNC_OBSERVATIONS_SUCCESS,
-		observations: res
-	};
-}
-
-export function syncObservations(status, user, token, newObservations) {
-	//retrieveObservations
+export function _loadObservations(user) {
+	//Alert.alert('No data', 'You have no observations, you can add one by pressing Log.')
 	return async function (dispatch) {
-		if (status) {
-			var config = {
-				headers: { 'Authorization': token }
-			};
-
-			var bodyParameters = {
-
-			};
-			axios.get(API_URL + 'observations', bodyParameters, config)
-				.then(res => {
-					console.log('Observations: ', res)
-					var config = {
-						headers: { 'Authorization': token }
-					};
-
-					var bodyParameters = {
-						data: newObservations
-					};
-
-					axios.put(API_URL + 'observations', bodyParameters, config)
-						.then(res2 => {
-							console.log('Observations: ', res2)
-							dispatch(syncObservationsSuccess(res2.meta.concat(newObservations)));
-							_saveSyncObservations(res2.meta.concat(newObservations), user)
-						})
-						.catch(async (error) => {
-							Alert.alert('Server Err', 'We could not upload the new observations.')
-							dispatch(retrieveObservationsSuccess(res.meta))
-							_saveObservations(res.meta, user)
-						});
-					//goHome();
-				})
-				.catch(async (error) => {
-					Alert.alert('Server Err', 'We could not retrieve the observations.')
-				});
-		} else {
-			Alert.alert('Offline', 'You can try later. you are offline')
-		}
-
+		const jdata = await AsyncStorage.getItem(user.email)
+			.then(() => {
+				console.log('Read')
+				const data = JSON.parse(jdata)
+				console.log('Load Obsrv: ', data)
+				if (data === null) {
+					Alert.alert('No data', 'You have no observations, you can add one by pressing Log.')
+				} else {
+					if (data.observations) {
+						dispatch(retrieveObservationsSuccess(data.observations))
+					}
+					if (data.newObservations) {
+						dispatch(retrieveNewObservationsSuccess(data.newObservations, data.newObservations.length - 1))
+					}
+				}
+			})
+			.catch((err) => {
+				console.log('Err Read: ', err)
+			})
 	}
 }

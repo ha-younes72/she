@@ -3,6 +3,11 @@ package com.awesomeproject;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.slider.ReactSliderPackage;
+import com.BV.LinearGradient.LinearGradientPackage;
+import com.github.yamill.orientation.OrientationPackage;
+import com.corbt.keepawake.KCKeepAwakePackage;
+import com.brentvatne.react.ReactVideoPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.wix.RNCameraKit.RNCameraKitPackage;
@@ -50,7 +55,12 @@ public class MainApplication extends NavigationApplication {
           new RNCameraKitPackage(),
           new RNFusedLocationPackage(),
           new NetInfoPackage(),
-          new ImagePickerPackage()
+          new ImagePickerPackage(),
+		new ReactVideoPackage(),
+		new KCKeepAwakePackage(),
+		new OrientationPackage(),
+		new LinearGradientPackage(),
+		new ReactSliderPackage()
         );
     }
   
@@ -72,6 +82,11 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ReactSliderPackage(),
+            new LinearGradientPackage(),
+            new OrientationPackage(),
+            new KCKeepAwakePackage(),
+            new ReactVideoPackage(),
             new ImagePickerPackage(),
             new NetInfoPackage(),
             new RNCameraKitPackage(),

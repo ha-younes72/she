@@ -5,14 +5,19 @@ import { iconsMap, iconsLoaded } from './AppIcons';
 
 
 defaultOptions = {
+  layout: {
+    direction: 'rtl', // Supported directions are: 'rtl', 'ltr'
+    //backgroundColor: 'white',
+    //orientation: ['portrait', 'landscape'] // An array of supported orientations
+  },
   bottomTabs: {
-    backgroundColor: colors.primaryLight
+    backgroundColor: colors.primaryBackGround//colors.primaryLight
   },
   bottomTab: {
-    iconColor: colors.primary,
-    selectedIconColor: 'white',
-    textColor: colors.primary,
-    selectedTextColor: 'white'
+    iconColor: colors.primaryBG,
+    selectedIconColor: colors.primary,
+    textColor: colors.primaryBG,
+    selectedTextColor: colors.primary
   },
   animations: {
     setRoot: {
@@ -109,6 +114,89 @@ Navigation.setDefaultOptions(defaultOptions);
 
 export const goToAuth = () => Navigation.setRoot({
   root: {
+    sideMenu: {
+      center: {
+        stack: {
+          id: 'AuthStack',
+          children: [{
+            bottomTabs: {
+              id: 'AuthBottomTabs',
+              children: [
+                {
+                  stack: {
+                    id: 'SingInStack',
+                    children: [
+                      {
+                        component: {
+                          id: 'AuthBottonTabSignIn',
+                          name: 'app.SignIn',
+                          options: {
+                            bottomTab: {
+                              text: 'ورود',
+                              fontSize: 14,
+                              icon: iconsMap['ios-log-in'],//require('../utils/signup.png')
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    options: defaultOptions
+                  }
+                },
+                {
+                  stack: {
+                    id: 'SignUpStack',
+                    children: [
+                      {
+                        component: {
+                          id: 'AuthBottonTabSignUp',
+                          name: 'app.SignUp',
+                          options: {
+                            bottomTab: {
+                              text: 'ثبت‌نام',
+                              fontSize: 14,
+                              icon: iconsMap['ios-person-add']//require('../utils/signup.png')
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    options: defaultOptions
+                  }
+                  /*component: {
+                    name: 'leaflet.Search',
+                    options: {
+                      bottomTab: {
+                        text: 'Search',
+                        fontSize: 12,
+                        icon: iconsMap['ios-search']// require('../utils/signup.png')
+                      }
+                    }
+                  }*/
+                }
+              ]
+            }
+          }],
+          options: defaultOptions
+        }
+      },
+      /*right: {
+        component: {
+          id: 'RightDrawer',
+          name: 'leaflet.Camera',
+          passProps: {
+            text: 'This is a right side menu screen'
+          }
+        },
+        width: 100,
+        height: 100,
+        //width: 30,
+      }*/
+    }
+  }
+})
+export const goToAuth1 = () => Navigation.setRoot({
+  root: {
     stack: {
       id: 'AuthStack',
       children: [
@@ -152,7 +240,7 @@ export const goHome2 = () => Navigation.setRoot({
 })
 
 
-export const goHome = () => Navigation.setRoot({
+export const goHome1 = () => Navigation.setRoot({
   root: {
     stack: {
       id: 'AppStack',
@@ -172,6 +260,152 @@ export const goHome = () => Navigation.setRoot({
           }
         },
       ]
+    }
+  }
+});
+
+export const goHome = () => Navigation.setRoot({
+  root: {
+    sideMenu: {
+      center: {
+        stack: {
+          id: 'AppStack',
+          children: [{
+            bottomTabs: {
+              id: 'AppBottomTabs',
+              children: [
+                {
+                  stack: {
+                    id: 'HomeStack',
+                    children: [
+                      {
+                        component: {
+                          id: 'AppBottonTabHome',
+                          name: 'app.Home',
+                          options: {
+                            bottomTab: {
+                              text: 'خانه',
+                              fontSize: 14,
+                              icon: iconsMap['ios-home'],//require('../utils/signup.png')
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    options: defaultOptions
+                  }
+                },
+                {
+                  stack: {
+                    id: 'SchoolStack',
+                    children: [
+                      {
+                        component: {
+                          id: 'AppBottonTabSearch',
+                          name: 'app.School',
+                          options: {
+                            bottomTab: {
+                              text: 'دوره‌های من',
+                              fontSize: 14,
+                              icon: iconsMap['ios-school']//require('../utils/signup.png')
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    options: defaultOptions
+                  }
+                  /*component: {
+                    name: 'leaflet.Search',
+                    options: {
+                      bottomTab: {
+                        text: 'Search',
+                        fontSize: 12,
+                        icon: iconsMap['ios-search']// require('../utils/signup.png')
+                      }
+                    }
+                  }*/
+                },
+                {
+                  stack: {
+                    id: 'AboutStack',
+                    children: [
+                      {
+                        component: {
+                          id: 'AppBottonTabAbout',
+                          name: 'app.About',
+                          options: {
+                            bottomTab: {
+                              text: 'درباره‌ ما',
+                              fontSize: 14,
+                              icon: iconsMap['ios-information-circle-outline']//require('../utils/signup.png')
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    options: defaultOptions
+                  }/*
+                  component: {
+                    name: 'leaflet.ProductsList',
+                    options: {
+                      bottomTab: {
+                        text: 'Wishlist',
+                        fontSize: 12,
+                        icon: iconsMap['ios-cart']//require('../utils/signup.png')
+                      }
+                    }
+                  }*/
+                },
+                {
+                  stack: {
+                    id: 'ProfileStack',
+                    children: [
+                      {
+                        component: {
+                          id: 'AppBottonTabProfile',
+                          name: 'app.Profile',
+                          options: {
+                            bottomTab: {
+                              text: 'پروفایل',
+                              fontSize: 14,
+                              icon: iconsMap['ios-person']//require('../utils/signup.png')
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    options: defaultOptions
+                  }
+                  /*component: {
+                    name: 'leaflet.Home',
+                    options: {
+                      bottomTab: {
+                        text: 'Profile',
+                        fontSize: 12,
+                        icon: iconsMap['ios-person']//require('../utils/signup.png')
+                      }
+                    }
+                  }*/
+                }
+              ]
+            }
+          }],
+          options: defaultOptions
+        }
+      },
+      /*right: {
+        component: {
+          id: 'RightDrawer',
+          name: 'leaflet.Camera',
+          passProps: {
+            text: 'This is a right side menu screen'
+          }
+        },
+        width: 100,
+        height: 100,
+        //width: 30,
+      }*/
     }
   }
 });

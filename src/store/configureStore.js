@@ -1,9 +1,24 @@
-
+/* eslint-disable global-require */
+/* eslint-disable no-undef */
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import pReducer from '../reducers/rootReducer';
 import { persistStore } from 'redux-persist';
+
+/*import { persistStore, persistReducer, persistCombineReducers} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+//import AsyncStorage from '@react-native-community/async-storage'
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+
+const persistConfig = {
+	key: 'root',
+	storage: storage,
+	stateReconciler: autoMergeLevel2 // see "Merge Process" section for details.
+};
+
+const pReducer = persistReducer(persistConfig, rootReducer);
+*/
 
 let middleware = [thunk];
 
@@ -25,6 +40,7 @@ export function configureStore(initialState) {
 			//applyMiddleware(autoRehydrate)	
 			// other store enhancers if any
 		)
+		//applyMiddleware(...middleware)
 	);
 }
 

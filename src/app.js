@@ -22,6 +22,10 @@ class App extends Component {
 				},
 			});
 		});
+
+		/*const bottomTabEventListener = Navigation.events().registerBottomTabSelectedListener( (selectedTabIndex,unSelectedTabIndex) =>{
+			console.log("Selected: ",selectedTabIndex, "Unselected: ",unSelectedTabIndex)
+		})*/
 	}
 
 }

@@ -8,19 +8,22 @@ export default function (state = initialState.auth, action) {
             return {
                 ...state,
                 user: action.user,
-                token: action.token
+                token: action.token,
+                submittingFinished: true
             };
 
         case types.SIGNIN_USER_FAIL:
             return {
                 ...state,
                 message: action.message,
+                submittingFinished: true
             };
 
         case types.SIGNUP_USER_SUCCESS:
             return {
                 ...state,
-                message: action.message
+                message: action.message,
+                submittingFinished: true
                 //token: action.token
             };
 
@@ -28,6 +31,7 @@ export default function (state = initialState.auth, action) {
             return {
                 ...state,
                 message: action.message,
+                submittingFinished: true
             };
 
         case types.SET_STATUS:
@@ -35,11 +39,23 @@ export default function (state = initialState.auth, action) {
                 ...state,
                 status: action.status
             }
-        case types.CLEAR_AUTH_ERROR:
+            case types.CLEAR_AUTH_ERROR:
             return {
                 ...state,
                 message: action.message
             };
+
+        case types.ADD_TO_FAVORITE_CATEGORIES_SUCCESS:
+            return {
+                ...state,
+                favCats: [...state.favCats, action.cat]
+            }
+
+        case types.REMOVE_FROM_FAVORITE_CATEGORIES_SUCCESS:
+            return {
+                ...state,
+                favCats: action.index === 0 ? state.favCats.slice(1) : state.favCats.slice(0, action.index).concat(state.favCats.slice(action.index + 1)),
+            }
 
         default:
             return state;

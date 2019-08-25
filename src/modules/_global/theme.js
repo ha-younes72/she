@@ -1,6 +1,10 @@
 const colors = {
-  primaryBackGround: "#F2F1F0",
-  primary: "#009BA1",
+  primary: '#D6B569',
+  primaryBG: '#DEDEDE',
+  secondaryBG: 'white',
+  iconGray: 'gray',
+  //primaryBackGround: "#F2F1F0",
+  //primary: '#D6B569',//"#009BA1",
   //primary: "#00BFFF",//'#0b377f',//'#D81B60'
   primaryLight: '#4083ef',
   textColor: 'white',

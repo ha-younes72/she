@@ -183,12 +183,12 @@ class CameraScreen extends Component {
 									image.then((value) => {
 										//Alert.alert(value.uri)
 										console.log(value)
-										this.props.actions.addPhoto('file://' + value.uri, this.props.user)
+										this.props.actions.addPhoto(value.uri, this.props.user)
 										Navigation.pop(this.props.componentId)
 									})
-										.catch((err) => {
-											console.log(err)
-										})
+									.catch((err)=>{
+										console.log(err)
+									})
 								}}>
 								<Image source={require('../../../images/cameraButton.png')} />
 							</TouchableOpacity>

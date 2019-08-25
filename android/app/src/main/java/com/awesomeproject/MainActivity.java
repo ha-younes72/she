@@ -4,6 +4,8 @@ package com.awesomeproject;
 import com.reactnativenavigation.NavigationActivity;
 import com.imagepicker.permissions.OnImagePickerPermissionsCallback; // <- add this import
 import com.facebook.react.modules.core.PermissionListener;
+import android.content.Intent; // <--- import
+import android.content.res.Configuration; // <--- import
 
 public class MainActivity extends NavigationActivity implements OnImagePickerPermissionsCallback {
     private PermissionListener listener; // <- add this attribute
@@ -32,4 +34,12 @@ public class MainActivity extends NavigationActivity implements OnImagePickerPer
 //    protected String getMainComponentName() {
 //        return "AwesomeProject";
 //    }
+
+	@Override
+      public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        this.sendBroadcast(intent);
+    }    
 }

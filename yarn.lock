@@ -858,6 +858,11 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-3.3.0-reachability.4.tgz#af70ba0bfe5698c6caf8bfb95334ede7a3845775"
   integrity sha512-D9fXcTTS4u4B1QBtgHiWOLutep8LNTHV50g2hecR6RgujL5TrlgBYDBTsExm2bLX4vjotqx8Xg2kw1/qMt/AFA==
 
+"@react-native-community/slider@1.x.x":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@react-native-community/slider/-/slider-1.1.4.tgz#ff7438afbc194d61f397e9258d78941c014ac110"
+  integrity sha512-ecs5g1MSonDQdbPMghYkBLvJkXTOPziqVUwDUl9GDjoND+cDZDnOr+0z1IX+SZs2AdUOa8r+r8a7UyNt8MDNrw==
+
 "@types/babel__core@^7.1.0":
   version "7.1.2"
   resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.2.tgz#608c74f55928033fce18b99b213c16be4b3d114f"
@@ -3649,6 +3654,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+keymirror@0.1.1, keymirror@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/keymirror/-/keymirror-0.1.1.tgz#918889ea13f8d0a42e7c557250eee713adc95c35"
+  integrity sha1-kYiJ6hP40KQufFVyUO7nE63JXDU=
+
 kind-of@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-1.1.0.tgz#140a3d2d41a36d2efcfa9377b62c24f8495a5c44"
@@ -5008,7 +5018,7 @@ prop-types@15.6.2:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
-prop-types@15.x.x, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@15.x.x, prop-types@^15.5.10, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -5109,6 +5119,18 @@ react-lifecycles-compat@2.0.0:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-2.0.0.tgz#71d9c4cde47114c4102454f76da055c2bc48c948"
   integrity sha512-txfpPCQYiazVdcbMRhatqWKcAxJweUu2wDXvts5/7Wyp6+Y9cHojqXHsLPEckzutfHlxZhG8Oiundbmp8Fd6eQ==
 
+react-native-af-video-player@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-af-video-player/-/react-native-af-video-player-0.2.1.tgz#35ae17a10b9cba8465fc6a856207de773d2df723"
+  integrity sha512-0+69zfk6nX9lFgfI+miHsUh1k32WouE53vWqyT2kHcAN4iDxa8mqcyMGeTnZ2gby62sx3T032OSbbAr1qRYZ6A==
+  dependencies:
+    react-native-keep-awake "^2.0.6"
+    react-native-linear-gradient "^2.3.0"
+    react-native-orientation "^3.1.0"
+    react-native-slider "https://github.com/abbasfreestyle/react-native-slider.git"
+    react-native-vector-icons "^4.4.2"
+    react-native-video "^2.0.0"
+
 react-native-animatable@^1.2.4:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.3.2.tgz#4783ee1a73dc98815aef234ce6b819f80bfe7d80"
@@ -5176,6 +5198,11 @@ react-native-iphone-x-helper@^1.0.3:
   resolved "https://registry.yarnpkg.com/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.2.1.tgz#645e2ffbbb49e80844bb4cbbe34a126fda1e6772"
   integrity sha512-/VbpIEp8tSNNHIvstuA3Swx610whci1Zpc9mqNkqn14DkMbw+ORviln2u0XyHG1kPvvwTNGZY6QpeFwxYaSdbQ==
 
+react-native-keep-awake@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-keep-awake/-/react-native-keep-awake-2.0.6.tgz#d8eaffe0a6377cc197469d9f06c7f317225403db"
+  integrity sha512-ketZKC6G49W4iblKYCnIA5Tcx78Yu48n/K5XzZUnMm69wAnZxs1054Re2V5xpSwX5VZasOBjW1iI1cTjtB/H5g==
+
 react-native-keyboard-aware-scroll-view@0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/react-native-keyboard-aware-scroll-view/-/react-native-keyboard-aware-scroll-view-0.8.0.tgz#00bcaa38c91323913bb7a733059ad2bc4875f88c"
@@ -5183,6 +5210,11 @@ react-native-keyboard-aware-scroll-view@0.8.0:
   dependencies:
     prop-types "^15.6.2"
     react-native-iphone-x-helper "^1.0.3"
+
+react-native-linear-gradient@^2.3.0:
+  version "2.5.6"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.5.6.tgz#96215cbc5ec7a01247a20890888aa75b834d44a0"
+  integrity sha512-HDwEaXcQIuXXCV70O+bK1rizFong3wj+5Q/jSyifKFLg0VWF95xh8XQgfzXwtq0NggL9vNjPKXa016KuFu+VFg==
 
 react-native-modal@^7.0.1:
   version "7.0.2"
@@ -5203,6 +5235,11 @@ react-native-navigation@^2.26.3:
     react-lifecycles-compat "2.0.0"
     tslib "1.9.3"
 
+react-native-orientation@^3.1.0:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-orientation/-/react-native-orientation-3.1.3.tgz#d45803841fe94b6cce9acbe904fd5ca191a3711e"
+  integrity sha512-A0h0E+2f95X4avmhaBG1ZT8WDxBACA/q//JN2eF1E7kq8AJVxt5XDiavv+aSBkBlqFsfF3bIS+T/DB5mXmnxuA==
+
 react-native-ratings@^6.3.0:
   version "6.3.1"
   resolved "https://registry.yarnpkg.com/react-native-ratings/-/react-native-ratings-6.3.1.tgz#4e4bd87f376423dc62c933f570fc1932c78adaa4"
@@ -5210,6 +5247,12 @@ react-native-ratings@^6.3.0:
   dependencies:
     lodash "^4.17.4"
     prop-types "^15.5.10"
+
+"react-native-slider@https://github.com/abbasfreestyle/react-native-slider.git":
+  version "0.11.0"
+  resolved "https://github.com/abbasfreestyle/react-native-slider.git#c53b4965c5e4c3ec258479417898dece367e603e"
+  dependencies:
+    prop-types "^15.5.6"
 
 react-native-status-bar-height@^2.2.0:
   version "2.3.1"
@@ -5225,6 +5268,15 @@ react-native-vector-icons@6.1.0:
     prop-types "^15.6.2"
     yargs "^8.0.2"
 
+react-native-vector-icons@^4.4.2:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-4.6.0.tgz#e4014311ffa6de397d914ffc31b7097a874cc8d5"
+  integrity sha512-rpfhfPiXCK2PX1nrNhdxSMrEGB/Gw/SvKoPM0G2wAkSoqynnes19K0VYI+Up7DqR1rFIpE4hP2erpT1tNx2tfg==
+  dependencies:
+    lodash "^4.0.0"
+    prop-types "^15.5.10"
+    yargs "^8.0.2"
+
 react-native-vector-icons@^6.1.0, react-native-vector-icons@^6.6.0:
   version "6.6.0"
   resolved "https://registry.yarnpkg.com/react-native-vector-icons/-/react-native-vector-icons-6.6.0.tgz#66cf004918eb05d90778d64bd42077c1800d481b"
@@ -5233,6 +5285,23 @@ react-native-vector-icons@^6.1.0, react-native-vector-icons@^6.6.0:
     lodash "^4.0.0"
     prop-types "^15.6.2"
     yargs "^13.2.2"
+
+react-native-video@4.x.x:
+  version "4.4.4"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-4.4.4.tgz#e33da29990556a9b2d575d6b2e88190fc04d9b50"
+  integrity sha512-GzC9dqvEV3kPQDgfM41bxuhXK0pf6NF+/PSY0nCqzikaapUtOs/69gPHEoG0D6ykI5ru0TxKdc1ZYM6MfZfgRw==
+  dependencies:
+    keymirror "^0.1.1"
+    prop-types "^15.5.10"
+    shaka-player "^2.4.4"
+
+react-native-video@^2.0.0:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-2.3.1.tgz#d0df6f984945a67a0cbfc5ad45a5156e2472ccce"
+  integrity sha512-fTeVcp0IXL4MY/IjzISqdCCikWb5hfmkLfJTSa1B5qvmbca3R4gFvFICQO4CFvfetInra8P9g1LFnvmfMhy7Gw==
+  dependencies:
+    keymirror "0.1.1"
+    prop-types "^15.5.10"
 
 react-native@0.59.9:
   version "0.59.9"
@@ -5818,6 +5887,11 @@ setprototypeof@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/setprototypeof/-/setprototypeof-1.1.1.tgz#7e95acb24aa92f5885e0abef5ba131330d4ae683"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
+
+shaka-player@^2.4.4:
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/shaka-player/-/shaka-player-2.5.4.tgz#0491ec3bfddf91453f09ac1d731e5eb21e39f684"
+  integrity sha512-r7s2xauV4id0jUzAEtE2+E+0keOfrdkk2mZhiDLs9CrhA9IR0hqrOZLLzthNP4/yF5oBmNcAZU0/qWPwlawHEA==
 
 shebang-command@^1.2.0:
   version "1.2.0"

@@ -68,6 +68,11 @@
 		05540E7EB8114D3E88A889DF /* RNModalPicker-tvOS.app in Resources */ = {isa = PBXBuildFile; fileRef = FA0579FE4C8B43FF82800232 /* RNModalPicker-tvOS.app */; };
 		3F1DC35238DB40378BA6C758 /* RNModalPicker-tvOSTests.xctest in Resources */ = {isa = PBXBuildFile; fileRef = E56077EE9D134123B2F16FC8 /* RNModalPicker-tvOSTests.xctest */; };
 		5AEB282F88334273A1201F7F /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E0B34C8585324F54AC9F879D /* libRNImagePicker.a */; };
+		ED6788A367CF470A8AE4D6E0 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C85B796EA2744B1EBA71E27B /* libRCTVideo.a */; };
+		A64EAA5DFA6F4F068B05B274 /* libKCKeepAwake.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CA2B81F5C6D74402B418BDD3 /* libKCKeepAwake.a */; };
+		F594EA69B4D34D92844E84F4 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E14D2877CB554CABACEB91ED /* libRCTOrientation.a */; };
+		7916885D6CF246DA99FF4604 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F38BBA86A2B0415D849B1F4D /* libBVLinearGradient.a */; };
+		8153050DEB4B48B6837E3603 /* libRNCSlider.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA2709DBD3EE449CBF0C6EBC /* libRNCSlider.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -411,6 +416,16 @@
 		E56077EE9D134123B2F16FC8 /* RNModalPicker-tvOSTests.xctest */ = {isa = PBXFileReference; name = "RNModalPicker-tvOSTests.xctest"; path = "RNModalPicker-tvOSTests.xctest"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.cfbundle; explicitFileType = undefined; includeInIndex = 0; };
 		7CFB69F5303243DABF1D79F8 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; name = "RNImagePicker.xcodeproj"; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		E0B34C8585324F54AC9F879D /* libRNImagePicker.a */ = {isa = PBXFileReference; name = "libRNImagePicker.a"; path = "libRNImagePicker.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		279A9B29991C49A58162BFAC /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; name = "RCTVideo.xcodeproj"; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		C85B796EA2744B1EBA71E27B /* libRCTVideo.a */ = {isa = PBXFileReference; name = "libRCTVideo.a"; path = "libRCTVideo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		91A4D9A13A3345F6A7EFF36A /* KCKeepAwake.xcodeproj */ = {isa = PBXFileReference; name = "KCKeepAwake.xcodeproj"; path = "../node_modules/react-native-keep-awake/ios/KCKeepAwake.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CA2B81F5C6D74402B418BDD3 /* libKCKeepAwake.a */ = {isa = PBXFileReference; name = "libKCKeepAwake.a"; path = "libKCKeepAwake.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		EBEC02DB88324EA3B17ABE4B /* RCTOrientation.xcodeproj */ = {isa = PBXFileReference; name = "RCTOrientation.xcodeproj"; path = "../node_modules/react-native-orientation/iOS/RCTOrientation.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E14D2877CB554CABACEB91ED /* libRCTOrientation.a */ = {isa = PBXFileReference; name = "libRCTOrientation.a"; path = "libRCTOrientation.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		94A7AC6AB38241989D1D1FA5 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; name = "BVLinearGradient.xcodeproj"; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		F38BBA86A2B0415D849B1F4D /* libBVLinearGradient.a */ = {isa = PBXFileReference; name = "libBVLinearGradient.a"; path = "libBVLinearGradient.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		FB66125440554F1B94FAF370 /* RNCSlider.xcodeproj */ = {isa = PBXFileReference; name = "RNCSlider.xcodeproj"; path = "../node_modules/@react-native-community/slider/ios/RNCSlider.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		BA2709DBD3EE449CBF0C6EBC /* libRNCSlider.a */ = {isa = PBXFileReference; name = "libRNCSlider.a"; path = "libRNCSlider.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -448,6 +463,11 @@
 				A158C4476FB74A088CFA0CC5 /* RNModalPicker.app in Resources */,
 				82C9A8F655CB44318ED88A43 /* RNModalPickerTests.xctest in Resources */,
 				5AEB282F88334273A1201F7F /* libRNImagePicker.a in Frameworks */,
+				ED6788A367CF470A8AE4D6E0 /* libRCTVideo.a in Frameworks */,
+				A64EAA5DFA6F4F068B05B274 /* libKCKeepAwake.a in Frameworks */,
+				F594EA69B4D34D92844E84F4 /* libRCTOrientation.a in Frameworks */,
+				7916885D6CF246DA99FF4604 /* libBVLinearGradient.a in Frameworks */,
+				8153050DEB4B48B6837E3603 /* libRNCSlider.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -649,6 +669,11 @@
 				376D118DC5B84A4B84359856 /* RNCNetInfo.xcodeproj */,
 				15221B0F4FDA45DDAB252123 /* RNModalPicker.xcodeproj */,
 				7CFB69F5303243DABF1D79F8 /* RNImagePicker.xcodeproj */,
+				279A9B29991C49A58162BFAC /* RCTVideo.xcodeproj */,
+				91A4D9A13A3345F6A7EFF36A /* KCKeepAwake.xcodeproj */,
+				EBEC02DB88324EA3B17ABE4B /* RCTOrientation.xcodeproj */,
+				94A7AC6AB38241989D1D1FA5 /* BVLinearGradient.xcodeproj */,
+				FB66125440554F1B94FAF370 /* RNCSlider.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1324,6 +1349,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1334,6 +1364,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Debug;
@@ -1362,6 +1397,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1372,6 +1412,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Release;
@@ -1401,6 +1446,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Debug;
@@ -1429,6 +1479,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Release;
@@ -1465,6 +1520,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1475,6 +1535,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Debug;
@@ -1511,6 +1576,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1521,6 +1591,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Release;
@@ -1556,6 +1631,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1566,6 +1646,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Debug;
@@ -1601,6 +1686,11 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1611,6 +1701,11 @@
 					"$(SRCROOT)/../node_modules/@react-native-community/netinfo/ios",
 					"$(SRCROOT)/../node_modules/rn-modal-picker/ios/RNModalPicker",
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
+					"$(SRCROOT)/../node_modules/react-native-keep-awake/ios",
+					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-linear-gradient/BVLinearGradient",
+					"$(SRCROOT)/../node_modules/@react-native-community/slider/ios",
 				);
 			};
 			name = Release;

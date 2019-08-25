@@ -27,6 +27,7 @@ import {
 
 //import Toast from "../_global/Toast";
 import { colors } from '../_global/theme'
+import ProgressBar from "../_global/ProgressBar";
 
 import {
 	Input,
@@ -39,10 +40,13 @@ import {
 import IconWithBadge from "../_global/Icons";
 
 import styles from './styles/auth.style'
+import uuidV4 from 'uuid/v4'
 import validate from './validators/validate_wrapper'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userActions from './actions';
+//import { NetInfo } from 'react-native'
+//import { RadioGroup, CheckBox } from "react-native-btr";
 
 class Register extends React.Component {
 	state = {
@@ -296,3 +300,186 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Register);
+
+{
+	/*
+		<View style={styles.container}>
+				<View style={styles.btnHolder}>
+					<Button 
+						containerStyle={
+							{width:'30%'}
+						}
+						icon={
+							<Icon
+								name='ios-person-add'
+								type="ionicons"
+								size={15}
+								color={colors.primary}
+							/>
+						}
+						title="Register"
+						type="outline"
+						loading={this.state.isSubmiting}
+					/>
+					<Button 
+						containerStyle={
+							{width:'30%'}
+						}
+						icon={
+							<Icon
+								name='ios-log-in'
+								type="ionicons"
+								size={15}
+								color={colors.primary}
+							/>
+						}
+						title="Log In"
+						type="outline"
+						loading={this.state.isSubmiting}
+					/>
+				</View>
+			</View>	
+		
+		
+		
+	*/
+}
+
+
+{/*
+		<ScrollView style={styles.container} contentContainerStyle={styles.containerContent}>
+				<View style={styles.inputMainContainer}>
+					<Input
+						containerStyle={styles.inputContainer}
+						inputContainerStyle={styles.input}
+						onChangeText={val => this.onChangeText('email', val)}
+						placeholder='Mail'
+						value={this.state.email}
+						onBlur={() => {
+							this.setState({
+								emailError: validate('email', this.state.email)
+							})
+						}}
+						leftIcon={
+							<IconWithBadge
+								style={{ margin: 0 }}
+								name='ios-mail'
+								size={24}
+								color='black'
+							/>
+						}
+						errorStyle={{ color: 'red' }}
+						errorMessage={this.state.emailError ? this.state.emailError : null}
+					/>
+
+					<Input
+						containerStyle={styles.inputContainer}
+						inputContainerStyle={styles.input}
+						onChangeText={val => this.onChangeText('password', val)}
+						placeholder='Password'
+						value={this.state.password}
+						onBlur={() => {
+							this.setState({
+								passwordError: validate('password', this.state.password)
+							})
+						}}
+						secureTextEntry={!this.state.showPass}
+						leftIcon={
+							<Icon
+								name='key'
+								size={24}
+								color='black'
+							/>
+						}
+						rightIcon={
+							<TouchableOpacity onPress={() => {
+								if (this.state.showPass) {
+									this.setState({
+										showPass: false
+									})
+								} else {
+									this.setState({
+										showPass: true
+									})
+								}
+							}}>
+								<Icon
+									name='eye'
+									size={24}
+									color='black'
+								/>
+							</TouchableOpacity>
+						}
+						errorStyle={{ color: 'red' }}
+						errorMessage={this.state.passwordError ? this.state.passwordError : null}
+					/>
+
+					<View
+						style={[{
+							alignSelf: 'center',
+							alignItems: 'center',
+							justifyContent: 'center',
+							paddingLeft: 30
+						}]}>
+						<RadioGroup
+							color={'white'}
+							style={{ flexDirection: 'row', padding: 5 }}
+							labelStyle={{ fontSize: 14 }}
+							radioButtons={
+								[
+									{
+										label: 'GPS',
+										value: 'RealTimeNotifYes',
+										checked: false,
+										color: 'white',
+										flexDirection: 'row',
+										size: 10
+									},
+									{
+										label: 'No',
+										value: 'RealTimeNotifNo',
+										checked: false,
+										color: 'white',
+										flexDirection: 'row',
+										size: 10
+									}
+								]
+							}
+							onPress={
+								radioButtons => {
+									if (radioButtons[0].checked) {
+										this.setState({
+											owner: true
+										}, () => {
+											console.log('Yes')
+										})
+									} else {
+										this.setState({
+											owner: false
+										}, () => {
+											console.log('No')
+										})
+									}
+								}
+							}
+						/>
+					</View>
+				</View>
+
+				{this.state.isSubmiting ?
+					<View style={styles.progressBar}>
+						<ProgressBar color={'white'} />
+						<Toast visible={this.props.message ? true : false} message={this.props.message} />
+					</View>
+					:
+					<View style={styles.buttonContainer}>
+						<TouchableOpacity style={styles.button} onPress={this.submit}>
+							<View style={styles.buttonInner}>
+								<Text style={styles.buttontext}>Sign Up</Text>
+							</View>
+						</TouchableOpacity>
+					</View>
+				}
+			</ScrollView>
+			*/
+}

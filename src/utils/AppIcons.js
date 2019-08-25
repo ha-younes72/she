@@ -7,12 +7,15 @@ const replaceSuffixPattern = /--(active|big|small|very-big)/g;
 const icons = {
 	'ios-log-in': [30],
 	'ios-log-out': [30],
-	'ios-home' : [30],
-	'ios-barcode' : [30],
-	'ios-menu' : [30],
-	'ios-person-add' : [30],
-	'ios-cart' : [30],
-	'ios-person' : [30],
+	'ios-home': [30],
+	'ios-barcode': [30],
+	'ios-menu': [30],
+	'ios-person-add': [30],
+	'ios-cart': [30],
+	'ios-person': [30],
+	'ios-paper': [30],
+	'ios-school': [30],
+	'ios-information-circle-outline': [30],
 	//'ios-film-outline': [30],
 	//'ios-film': [30],
 	//'ios-desktop-outline': [30],
@@ -26,15 +29,15 @@ const iconsMap = {};
 const iconsLoaded = new Promise((resolve, reject) => {
 	Promise.all(
 		Object.keys(icons).map(iconName =>
-		// IconName--suffix--other-suffix is just the mapping name in iconsMap
-		Ionicons.getImageSource(
-		iconName.replace(replaceSuffixPattern, ''),
-		icons[iconName][0],
-		icons[iconName][1]
-		))
+			// IconName--suffix--other-suffix is just the mapping name in iconsMap
+			Ionicons.getImageSource(
+				iconName.replace(replaceSuffixPattern, ''),
+				icons[iconName][0],
+				icons[iconName][1]
+			))
 	).then(sources => {
 		Object.keys(icons)
-		.forEach((iconName, idx) => (iconsMap[iconName] = sources[idx]));
+			.forEach((iconName, idx) => (iconsMap[iconName] = sources[idx]));
 
 		// Call resolve (and we are done)
 		resolve(true);

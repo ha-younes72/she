@@ -7,10 +7,15 @@ import { Root } from 'native-base';
 
 import Initializing from './modules/Initializing'
 import Home from './modules/app/Home';
-import ObservationList from './modules/app/ObservationList';
+import School from './modules/app/School'
+import About from './modules/app/About';
+import Profile from './modules/app/Profile'
+import SignIn from './modules/authentication/SignIn'
+import SignUp from './modules/authentication/SignUp'
 import Camera from './modules/app/CameraWix';
-//import Gallery from './modules/app/GalleryView';
-import Auth from './modules/authentication/Auth'
+import VideosList from './modules/app/VideosList'
+import VideoPlayer from './modules/app/Player'
+//import Auth from './modules/authentication/Auth'
 
 export function registerScreens(store, persistor) {
 
@@ -22,13 +27,21 @@ export function registerScreens(store, persistor) {
         </Provider>
     ), () => Initializing);
 
-    Navigation.registerComponent('app.Auth', () => (props) => (
+    Navigation.registerComponent('app.SignIn', () => (props) => (
         <Provider store={store}>
             <PersistGate persistor={persistor}>
-                <Auth {...props} />
+                <SignIn {...props} />
             </PersistGate>
         </Provider>
-    ), () => Auth);
+    ), () => SignIn);
+
+    Navigation.registerComponent('app.SignUp', () => (props) => (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <SignUp {...props} />
+            </PersistGate>
+        </Provider>
+    ), () => SignUp);
 
     Navigation.registerComponent('app.Home', () => (props) => (
         <Provider store={store}>
@@ -40,13 +53,21 @@ export function registerScreens(store, persistor) {
         </Provider>
     ), () => Home);
 
-    Navigation.registerComponent('app.ObservationList', () => (props) => (
+    Navigation.registerComponent('app.School', () => (props) => (
         <Provider store={store}>
             <PersistGate persistor={persistor}>
-                <ObservationList {...props} />
+                <School {...props} />
             </PersistGate>
         </Provider>
-    ), () => ObservationList);
+    ), () => School);
+
+    Navigation.registerComponent('app.About', () => (props) => (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <About {...props} />
+            </PersistGate>
+        </Provider>
+    ), () => About);
 
     Navigation.registerComponent('app.Camera', () => (props) => (
         <Provider store={store}>
@@ -55,5 +76,29 @@ export function registerScreens(store, persistor) {
             </PersistGate>
         </Provider>
     ), () => Camera);
+
+    Navigation.registerComponent('app.Profile', () => (props) => (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <Profile {...props} />
+            </PersistGate>
+        </Provider>
+    ), () => Profile);
+
+    Navigation.registerComponent('app.VideosList', () => (props) => (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <VideosList {...props} />
+            </PersistGate>
+        </Provider>
+    ), () => VideosList);
+
+    Navigation.registerComponent('app.VideoPlayer', () => (props) => (
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                <VideoPlayer {...props} />
+            </PersistGate>
+        </Provider>
+    ), () => VideoPlayer);
 
 }

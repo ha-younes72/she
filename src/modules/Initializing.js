@@ -2,11 +2,7 @@ import React from 'react'
 import { Component } from 'react'
 import {
   View,
-  Text,
-  StyleSheet,
-  PermissionsAndroid,
-  //AsyncStorage,
-  Alert
+  StyleSheet
 } from 'react-native'
 
 import { goToAuth } from '../utils/navigation'
@@ -20,32 +16,10 @@ import NetInfo from "@react-native-community/netinfo";
 
 class Initialising extends Component {
   state = {
-    isConnected: false
-  }
-
-  async requestInternetPermission() {
-    //Alert.alert('IN')
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.INTERNET, //ACCESS_NETWORK_STATE,
-        {
-          'title': 'Internet Permission',
-          'message': 'This App needs access to your Internet ' +
-            'so we can retrieve the observations.'
-        }
-      )
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use internet ")
-      } else {
-        console.log("Internet permission denied")
-      }
-    } catch (err) {
-      console.warn(err)
-    }
+    isConnected: true
   }
 
   async componentDidMount() {
-   // await this.requestInternetPermission().then(()=>{
     //NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
     NetInfo.fetch().then(state => {
       console.log("Connection type", state.type);
@@ -54,9 +28,9 @@ class Initialising extends Component {
         this.props.actions.setStatus(this.state.isConnected)
       })
     });
-    //})
-
+    
     try {
+      //await AsyncStorage.clear()
       const userToken = await AsyncStorage.getItem('userToken');
 
       console.log("UserToken From Async", userToken)
@@ -69,7 +43,7 @@ class Initialising extends Component {
       } else {
         user = JSON.parse(userToken);
         console.log("User From Async", user)
-        this.props.actions.signinUser(user, this.state.isConnected);
+        this.props.actions.signinUser(user);
       }
     } catch (err) {
       console.log('error: ', err)

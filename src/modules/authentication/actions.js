@@ -16,57 +16,34 @@ export function signinUserSuccess(res) {
 export function signinUserFail(res) {
 	return {
 		type: types.SIGNIN_USER_FAIL,
-		message: res.msg
+		message: res.msg,
 	};
 }
-/*
-"status": 1,
-    "msg": "Success",
-    "meta": {
-        "ID": 65,
-        "token": "",
-        "email": "test@test.com",
-        "firstName": "test",
-        "lastName": "test",
-        "profile": null
-    }
-*/
-export function signinUser(user, status) {
-	console.log('User to be logged in: ', user)
-	console.log('State: ', status)
-	return function (dispatch) {
-		if (status) {
-			console.log(API_URL + 'login')
-			axios.post(API_URL + 'login', {
-				email: user.email,
-				password: user.password
-			})
-				.then(res => {
-					console.log('LoginResponse: ', res)
-					dispatch(signinUserSuccess({
-						user: {
-							email: user.email,
-							fname: res.data.meta.firstname,
-							lname: res.data.meta.lastname,
-							password: user.password
-						},
-						token: res.data.meta.token
-					}));
-					_signInAsync(user)
-				})
-				.catch(error => {
-					console.log("Error Logging In: ", error); //eslint-disable-line
-					//dispatch(signinUserFail(error.response));
-					Alert.alert('Server Error', 'We could not sing you in, You are offline, you can sync later')
-					dispatch(signinUserSuccess({ user, token: '' }));
-					_signInAsync(user)
-				});
-		} else {
-			Alert.alert('Offline', 'You are offline, you can sync when you are online')
-			dispatch(signinUserSuccess({ user, token: '' }));
-			_signInAsync(user)
-		}
 
+export function signinUser(user) {
+	console.log('User to be logged in: ', user)
+	return function (dispatch) {
+		console.log(API_URL + 'login')
+		axios.post(API_URL + 'login', {
+			mobile: user.mobile,
+			password: user.password
+		})
+			.then(res => {
+				console.log('LoginResponse: ', res)
+				dispatch(signinUserSuccess({ user: res.data.data, token: res.data.data.api_token }));
+				_signInAsync(user)
+			})
+			.catch(error => {
+				console.log("Error Logging In: ", error.response); //eslint-disable-line
+				if (error.response.status === 422) {
+					dispatch(signinUserFail({ msg: error.response.data.errors.mobile[0] }));
+					Alert.alert('خطای سرور', error.response.data.errors.mobile[0])
+				}
+				if (error.response.status === 403) {
+					dispatch(signinUserFail({ msg: error.response.data.data.message }));
+					Alert.alert('خطای سرور', error.response.data.data.message)
+				}
+			});
 	};
 }
 
@@ -98,41 +75,22 @@ export function signupUserFail(res) {
 	};
 }
 
-export function signupUser(user, status) {
+export function signupUser(user) {
 	console.log('User to be signed up: ', user)
 	return function (dispatch) {
 
-		if (status) {
-			console.log(API_URL + 'user')
-			axios.put(API_URL + 'user', {
-				email: user.email,
-				password: user.password
+		console.log(API_URL + 'register')
+		axios.post(API_URL + 'register', user)
+			.then(res => {
+				console.log('registerResponse: ', res)
+				dispatch(signupUserSuccess(res.meta));
+				_signupAsync(user)
 			})
-				.then(res => {
-					console.log('registerResponse: ', res)
-					dispatch(signupUserSuccess({
-						user: {
-							email: user.email,
-							fname: res.data.meta.firstname,
-							lname: res.data.meta.lastname,
-							password: user.password
-						},
-						token: res.data.meta.token
-					}));
-					_signUpAsync(user)
-				})
-				.catch(error => {
-					console.log("Error registering: ", error); //eslint-disable-line
-					//dispatch(signinUserFail(error.response));
-					Alert.alert('Server Error', 'We could not sing you up, You are offline, you can sync later')
-					dispatch(signupUserSuccess({ user, token: '' }));
-					_signupAsync(user)
-				});
-		} else {
-			Alert.alert('Offline', 'You are offline, you can sync when you are online')
-			dispatch(signupUserSuccess({ user, token: '' }));
-			_signupAsync(user)
-		}
+			.catch(error => {
+				console.log("Error registering: ", error); //eslint-disable-line
+				dispatch(signinUserFail({ message: 'خطای سرور' }));
+				Alert.alert('خطای سرور', 'خطایی در سرور رخ داده است')
+			});
 	};
 }
 

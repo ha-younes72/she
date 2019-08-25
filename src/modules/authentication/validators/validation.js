@@ -1,32 +1,52 @@
 const validation = {
+  email: {
+    presence: {
+      message: '^لطفا آدرس پست الکترونیکی خود را وارد کنید'
+    },
     email: {
-      presence: {
-        message: '^Please enter an email address'
-      },
-      email: {
-        message: '^Please enter a valid email address'
-      }
+      message: '^لطفا پست الکترونیکی با فرمت صحیح را وارد کنید'
+    }
+  },
+
+  firstname: {
+    presence: {
+      message: '^Please enter a first name'
     },
-    
-    firstname: {
-        presence:{
-            message: '^Please enter a first name'
-        },
-        length: {
-          minimum: 2,
-          message: '^Please enter a first name'
-        }
+    length: {
+      minimum: 2,
+      message: '^Please enter a first name'
+    }
+  },
+
+  name: {
+    presence: {
+      message: '^لطفا نام خود را وارد کنید'
     },
-    
-    password: {
-      presence: {
-        message: '^Please enter a password'
-      },
-      length: {
-        minimum: 4,
-        message: '^Your password must be at least 5 characters'
-      }
+    length: {
+      minimum: 2,
+      message: '^لطفا نام خود را درست وارد کنید'
+    }
+  },
+  password: {
+    presence: {
+      message: '^لطفا رمز عبور خود را وارد کنید'
+    },
+    length: {
+      minimum: 4,
+      message: '^رمز عبور شماباید حداقل ۴ رقمی باشد'
+    }
+  },
+
+  mobile: {
+    presence: {
+      message: '^لطفا شماره موبایل حود را وارد کنید'
+    },
+    length: {
+      minimum: 11,
+      maximum: 11,
+      message: '^شماره موبایل ۱۱ رقمی خود را وارد کنید'
     }
   }
-  
-  export default validation
+}
+
+export default validation

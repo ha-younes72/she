@@ -1,316 +1,277 @@
-import React from 'react';
-import { Navigation } from "react-native-navigation";
-import {
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
-
+import React, { Component } from "react";
+import { StyleSheet, Image, Dimensions, TouchableOpacity } from "react-native";
 import {
   Container,
+  Header,
+  Title,
   Content,
-  Footer,
-  FooterTab,
   Button,
+  Icon,
+  Card,
+  CardItem,
   Text,
-  View,
-  List,
-  ListItem,
-  Right,
+  Thumbnail,
   Left,
+  Right,
   Body,
   StyleProvider,
   getTheme,
-  Thumbnail,
-  Spinner,
-  Fab
-} from 'native-base'
-import AsyncStorage from '@react-native-community/async-storage'
-import NetInfo from "@react-native-community/netinfo";
-import Icon from 'react-native-vector-icons/Ionicons';
+  View,
+} from "native-base";
+import customVariables from '../_global/variables';
+import ProgressBar from '../_global/ProgressBar';
+import { colors } from "../_global/theme";
+const deviceWidth = Dimensions.get("window").width;
+const logo = require("../../../images/profile.jpeg");
+const cardImage = require("../../../images/index.jpeg");
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import customVariables from '../_global/variables';
+import * as appActions from './actions';
+import { IMG_URL } from "../../constants/api";
 
-import * as offsActions from './actions';
+//const IMG_URL = 'http://mastershe.ir'
 
+class Home extends Component {
 
-class Home extends React.Component {
-  static get options() {
-    return {
-      topBar: {
-        visible: false
-      },
-    };
+  state = {
+    cards: [1, 2, 3, 4],
+    isLoading: true
   }
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isLoading: true,
-      isRefreshing: false
-    };
-
-    Navigation.events().bindComponent(this);
-  }
-
-
-  async componentDidMount() {
-    this.props.actions.retrieveObservations(this.props.status, this.props.user, this.props.token)
-  }
-
-  async componentDidAppear() {
-  }
-
-  async componentDidDisappear() {
+  componentDidMount() {
+    this.props.actions.retrieveAllCourses()
   }
 
   componentWillReceiveProps(nextProps) {
-    if ((nextProps.observations) || (nextProps.newObservations)) {
-      this.setState({ isLoading: false });
+    if (nextProps.allCourses) {
+      this.setState({
+        isLoading: false
+      })
     }
   }
-
-  logout = async () => {
-    try {
-      await AsyncStorage.removeItem('userToken')
-      goToAuth()
-    } catch (err) {
-      console.log('error signing out...: ', err)
-    }
-  }
-
-  async componentWillUnmount() {
-  }
-
   render() {
-
     return (
-      !this.state.isLoading
-        ?
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <Spinner large color="blue"></Spinner>
-        </View>
-        :
+      <Container style={styles.container}>
         <StyleProvider style={getTheme(customVariables)}>
-          <Container>
-            {
-              ((this.props.observasions.length > 0) || (this.props.newObservasions.length > 0))
-                ?
-                <Content
-                  contentContainerStyle={{
-                    //flex: 1,
-                    padding: 15,
-                  }}>
-                  <List>
-                    {this.props.observasions.map((data, i) => (
-                      <ListItem
-                        key={i}
-                        style={{
-                          marginLeft: 0,
-                          marginBottom: 10,
-                          paddingHorizontal: 10,
-                          borderRadius: 5,
-                          shadowColor: "#000",
-                          shadowOffset: {
-                            width: 0,
-                            height: 4,
-                          },
-                          shadowOpacity: 0.30,
-                          shadowRadius: 4.65,
-                          elevation: 4,
-                          borderRadius: 7,
-                        }}
-                        thumbnail
-                      >
-                        <Left>
-                          <Thumbnail square large size={120} source={data.img} />
-                        </Left>
-                        <Body style={{ paddingLeft: 10 }}>
-                          <Text style={{ paddingBottom: 4 }} numberOfLines={1}>{data.text}</Text>
-                          <Text numberOfLines={1} note>
-                            {data.time}
-                          </Text>
-                          <Text style={{ paddingBottom: 4 }} numberOfLines={1} note>
-                            {data.lon}  {data.lat}
-                          </Text>
-                          <TouchableOpacity>
-                            <Text style={{ color: 'blue' }} note >View More</Text>
-                          </TouchableOpacity>
-                        </Body>
-                        
-                      </ListItem>
-                    ))}
-                    {this.props.newObservasions.map((data, i) => (
-                      <ListItem
-                        key={i}
-                        style={{
-                          marginLeft: 0,
-                          marginBottom: 10,
-                          paddingHorizontal: 10,
-                          borderRadius: 5,
-                          shadowColor: "#000",
-                          shadowOffset: {
-                            width: 0,
-                            height: 4,
-                          },
-                          shadowOpacity: 0.30,
-                          shadowRadius: 4.65,
-                          elevation: 4,
-                          borderRadius: 7,
-                        }}
-                        thumbnail
-                      >
-                        <Left>
-                          <Thumbnail square large size={120} source={{ uri: data.img }} />
-                        </Left>
-                        <Body style={{ paddingLeft: 10 }}>
-                          <Text style={{ paddingBottom: 4 }} numberOfLines={1}>{data.text}</Text>
-                          <Text numberOfLines={1} note>
-                            {data.time}
-                          </Text>
-                          <Text style={{ paddingBottom: 4 }} numberOfLines={1} note>
-                            {data.lon}  {data.lat}
-                          </Text>
-                          <TouchableOpacity>
-                            <Text style={{ color: 'blue' }} note >View More</Text>
-                          </TouchableOpacity>
-                        </Body>
-                        
-                      </ListItem>
-                    ))}
-                  </List>
-                  <TouchableOpacity
-                    style={{
-                      //alignSelf:'flex-end',
-                      position: 'absolute',
-                      right: 2,
-                      top: 2,
-                      backgroundColor: 'blue',
-                      width: 50,
-                      height: 50,
-                      borderRadius: 25,
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                    onPress={() => {
-                      Alert.alert('Syncing', 'I am symcing!')
-                      NetInfo.fetch().then(state => {
-                        console.log("Connection type", state.type);
-                        console.log("Is connected?", state.isConnected);
-                        this.setState({ isConnected: state.isConnected }, () => {
-                          this.props.actions.syncObservations(this.state.isConnected, this.props.user, this.props.token, this.props.newObservations)
-                        })
-                      });
-                    }}
-                  >
-                    <Icon name='ios-sync' style={{ color: 'white', fontSize: 24 }} />
-                  </TouchableOpacity>
-                </Content>
-                :
-                <Content
-                  contentContainerStyle={{
-                    //flex: 1,
-                    padding: 15,
-                  }}>
-                  <View>
-                    <Text>
-                      There is no observations
-                  </Text>
-                  </View>
-                </Content>
-            }
-            <Footer>
-              <FooterTab style={{ borderBottomWidth: 4, borderBottomColor: 'blue' }}>
-                <Button
-                  
-                  bordered
-                  style={{
-                    borderColor: 'white'
-                  }} >
-                  <Text >Sightings</Text>
-                </Button>
-              </FooterTab>
-              <FooterTab >
-                <Button
-                  onPress={() => {
-                    Navigation.push('AppStack', {
-                      component: {
-                        name: 'app.ObservationList',
-                        passProps: {
-                          sessionName: 'General'
-                        },
-                        options: {
-                          topBar: {
-                            visible: false,
-                            drawBehind: true,
-                          }
-                        }
-                      }
-                    })
-                  }}
-                  bordered
-                  style={{
-                    borderColor: 'white'
-                  }}
-                >
+          <Header>
+            <Left>
+              <Button transparent onPress={() => this.props.navigation.goBack()}>
+                <Icon name="more" />
+              </Button>
+            </Left>
+            <Body>
+              <Title>خانه</Title>
+            </Body>
+            <Right>
+              <Button transparent>
+                <Icon name="heart" />
+              </Button>
+              <Button transparent>
+                <Icon name="search" />
+              </Button>
+            </Right>
+          </Header>
+        </StyleProvider>
+        <Content padder style={{ backgroundColor: colors.primaryBG }}>
+          <View
+            style={{
+              width: '100%',
+              backgroundColor: colors.secondaryBG,
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              paddingVertical: 7,
+              position: 'relative'
+            }}>
+            <TouchableOpacity
+              //active={this.state.seg === 1 ? true : false}
+              onPress={() => this.setState({ seg: 1 })}
+            >
+              <Icon name='bookmarks' style={{ color: colors.primary }}></Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              //active={this.state.seg === 2 ? true : false}
+              onPress={() => this.setState({ seg: 2 })}
+            >
+              <Icon name='archive' style={{ color: colors.primary }}></Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              //active={this.state.seg === 3 ? true : false}
+              onPress={() => this.setState({ seg: 3 })}
+            >
+              <Icon name='heart' style={{ color: colors.primary }}></Icon>
+            </TouchableOpacity>
+            <TouchableOpacity
+              //active={this.state.seg === 4 ? true : false}
+              onPress={() => this.setState({ seg: 4 })}
+            >
+              <Icon name='flask' style={{ color: colors.primary }}></Icon>
+            </TouchableOpacity>
+          </View>
 
-                  <View
-                    square
-                    style={{
-                      width: 50,
-                      height: 50,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      backgroundColor: 'white',
-                      borderRadius: 50,
-                      borderWidth: 2,
-                      borderColor: 'blue',
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 4,
-                      },
-                      shadowOpacity: 0.30,
-                      shadowRadius: 4.65,
-                      elevation: 4,
-                    }}
-                  >
-                    <Text style={{ fontSize: 13 }}>Log</Text>
-                  </View>
-                </Button>
-              </FooterTab>
-              <FooterTab>
-                <Button
-                  bordered
-                  style={{
-                    borderColor: 'white'
-                  }} >
-                  <Text>Profile</Text>
-                </Button>
-              </FooterTab>
-            </Footer>
-          </Container>
-        </StyleProvider >
+          {
+            this.state.isLoading
+              ?
+              <ProgressBar color={'#D6B569'}/>
+              :
+              this.props.allCourses.map((item, index) => (
+                < Card key={index} style={styles.mb}>
+                  <CardItem bordered>
+                    <Left>
+                      <Thumbnail source={{ uri: IMG_URL + item.thumb }} />
+                      <Body>
+                        <Text>{item.title}</Text>
+                        <Text note>{item.time}</Text>
+                      </Body>
+                    </Left>
+                    <Right>
+                      <Button iconLeft style={{ backgroundColor: colors.primary }}>
+                        <Icon name="pricetags" />
+                        <Text style={{ fontSize: 14 }}>خرید</Text>
+                      </Button>
+                    </Right>
+                  </CardItem>
+
+                  <CardItem>
+                    <Body>
+                      <Image
+                        style={{
+                          alignSelf: "center",
+                          height: 150,
+                          resizeMode: "cover",
+                          width: deviceWidth / 1.18,
+                          marginVertical: 5
+                        }}
+                        source={{ uri: IMG_URL + item.thumb }}
+                      />
+                      <Text style={{ textAlign: 'justify' }}>
+                        {item.title}
+                      </Text>
+                    </Body>
+                  </CardItem>
+                  <CardItem bordered style={{ paddingVertical: 0 }}>
+                    {/*
+                    <Left>
+                      <Button transparent>
+                        <Icon name="thumbs-up" />
+                        <Text>4,923 views</Text>
+                      </Button>
+                    </Left>
+                  */}
+                    <Left>
+                      <Button iconLeft transparent>
+                        <Icon name="heart-empty" style={{ color: colors.iconGray }} />
+                        <Text style={{ color: colors.iconGray, fontSize: 16 }}>پسندیدم</Text>
+                      </Button>
+                    </Left>
+                    <Body>
+                      <Button iconLeft transparent>
+                        <Icon name="text" style={{ color: colors.iconGray }} />
+                        <Text style={{ color: colors.iconGray, fontSize: 16 }}>نظر</Text>
+                      </Button>
+                    </Body>
+                    <Right>
+                      <Button iconLeft transparent>
+                        <Icon name="share-alt" style={{ color: colors.iconGray }} />
+                        <Text style={{ color: colors.iconGray, fontSize: 16 }}>بازنشر</Text>
+                      </Button>
+                    </Right>
+                  </CardItem>
+                </Card>
+              ))
+          }
+
+          {
+            /*
+            this.state.cards.map((val, index) => (
+              < Card key={index} style={styles.mb}>
+                <CardItem bordered>
+                  <Left>
+                    <Thumbnail source={logo} />
+                    <Body>
+                      <Text>نام دوره</Text>
+                      <Text note>۹ خرداد ۱۳۹۷</Text>
+                    </Body>
+                  </Left>
+                  <Right>
+                    <Button iconLeft style={{ backgroundColor: colors.primary }}>
+                      <Icon name="pricetags" />
+                      <Text style={{ fontSize: 14 }}>خرید</Text>
+                    </Button>
+                  </Right>
+                </CardItem>
+
+                <CardItem>
+                  <Body>
+                    <Image
+                      style={{
+                        alignSelf: "center",
+                        height: 150,
+                        resizeMode: "cover",
+                        width: deviceWidth / 1.18,
+                        marginVertical: 5
+                      }}
+                      source={cardImage}
+                    />
+                    <Text style={{ textAlign: 'justify' }}>
+                      در این دوره می توانید موارد زیادی را بیاموزید. از جمله یادگیری نحوه خرید دوره و همچنین نحوه کار با دوره ها
+                    </Text>
+                  </Body>
+                </CardItem>
+                <CardItem bordered style={{ paddingVertical: 0 }}>
+                  
+                  <Left>
+                    <Button iconLeft transparent>
+                      <Icon name="heart-empty" style={{ color: colors.iconGray }} />
+                      <Text style={{ color: colors.iconGray, fontSize: 16 }}>پسندیدم</Text>
+                    </Button>
+                  </Left>
+                  <Body>
+                    <Button iconLeft transparent>
+                      <Icon name="text" style={{ color: colors.iconGray }} />
+                      <Text style={{ color: colors.iconGray, fontSize: 16 }}>نظر</Text>
+                    </Button>
+                  </Body>
+                  <Right>
+                    <Button iconLeft transparent>
+                      <Icon name="share-alt" style={{ color: colors.iconGray }} />
+                      <Text style={{ color: colors.iconGray, fontSize: 16 }}>بازنشر</Text>
+                    </Button>
+                  </Right>
+                </CardItem>
+              </Card>
+            ))
+            */
+          }
+        </Content>
+      </Container >
     );
   }
 }
 
 
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#FFF"
+  },
+  mb: {
+    marginBottom: 15
+  }
+});
+
+//export default Home;
+
 function mapStateToProps(state, ownProps) {
   return {
-    observasions: state.appReducer.observations,
-    newObservasions: state.appReducer.newObservations,
-    status: state.authReducer.status,
-    user: state.authReducer.user,
+    allCourses: state.appReducer.allCourses,
+    allCoursesMeta: state.appReducer.allCoursesMeta
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators(offsActions, dispatch)
+    actions: bindActionCreators(appActions, dispatch)
   };
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

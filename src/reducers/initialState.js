@@ -1,16 +1,18 @@
 
 export default {
 	app: {
-		observations: [],
-		newObservations: [],
-		currentIndex: -1,
-		wantToAddPhoto: false
+		allCourses: [],
+		myCourses: [],
+		allCoursesMeta:{},
+		myCoursesMeta:{}
+		//currentIndex: -1,
 
 	},
 	auth: {
 		user: {},
 		token: '',
 		message: '',
-		status: false
+		status: false,
+		submittingFinished: false
 	}
 };
