@@ -4,7 +4,12 @@ export default {
 		allCourses: [],
 		myCourses: [],
 		allCoursesMeta:{},
-		myCoursesMeta:{}
+		myCoursesMeta:{},
+		favorites: [],
+		myFavCourses: [],
+		watchedMovies:{},
+		allWatched: [],
+		myCoursesIds: []
 		//currentIndex: -1,
 
 	},

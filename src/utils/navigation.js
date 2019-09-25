@@ -134,6 +134,7 @@ export const goToAuth = () => Navigation.setRoot({
                             bottomTab: {
                               text: 'ورود',
                               fontSize: 14,
+                              fontFamily:'IRANSansMobile',
                               icon: iconsMap['ios-log-in'],//require('../utils/signup.png')
                             }
                           }
@@ -155,6 +156,7 @@ export const goToAuth = () => Navigation.setRoot({
                             bottomTab: {
                               text: 'ثبت‌نام',
                               fontSize: 14,
+                              fontFamily:'IRANSansMobile',
                               icon: iconsMap['ios-person-add']//require('../utils/signup.png')
                             }
                           }
@@ -284,9 +286,10 @@ export const goHome = () => Navigation.setRoot({
                           name: 'app.Home',
                           options: {
                             bottomTab: {
-                              text: 'خانه',
+                              text: 'لیست دوره ها',
                               fontSize: 14,
-                              icon: iconsMap['ios-home'],//require('../utils/signup.png')
+                              fontFamily:'IRANSansMobile',
+                              icon: iconsMap['ios-cart'],//require('../utils/signup.png')
                             }
                           }
                         }
@@ -307,6 +310,7 @@ export const goHome = () => Navigation.setRoot({
                             bottomTab: {
                               text: 'دوره‌های من',
                               fontSize: 14,
+                              fontFamily:'IRANSansMobile',
                               icon: iconsMap['ios-school']//require('../utils/signup.png')
                             }
                           }
@@ -326,7 +330,7 @@ export const goHome = () => Navigation.setRoot({
                     }
                   }*/
                 },
-                {
+                /*{
                   stack: {
                     id: 'AboutStack',
                     children: [
@@ -338,6 +342,7 @@ export const goHome = () => Navigation.setRoot({
                             bottomTab: {
                               text: 'درباره‌ ما',
                               fontSize: 14,
+                              fontFamily:'IRANSansMobile',
                               icon: iconsMap['ios-information-circle-outline']//require('../utils/signup.png')
                             }
                           }
@@ -345,17 +350,7 @@ export const goHome = () => Navigation.setRoot({
                       }
                     ],
                     options: defaultOptions
-                  }/*
-                  component: {
-                    name: 'leaflet.ProductsList',
-                    options: {
-                      bottomTab: {
-                        text: 'Wishlist',
-                        fontSize: 12,
-                        icon: iconsMap['ios-cart']//require('../utils/signup.png')
-                      }
-                    }
-                  }*/
+                  }
                 },
                 {
                   stack: {
@@ -369,6 +364,7 @@ export const goHome = () => Navigation.setRoot({
                             bottomTab: {
                               text: 'پروفایل',
                               fontSize: 14,
+                              fontFamily:'IRANSansMobile',
                               icon: iconsMap['ios-person']//require('../utils/signup.png')
                             }
                           }
@@ -377,17 +373,7 @@ export const goHome = () => Navigation.setRoot({
                     ],
                     options: defaultOptions
                   }
-                  /*component: {
-                    name: 'leaflet.Home',
-                    options: {
-                      bottomTab: {
-                        text: 'Profile',
-                        fontSize: 12,
-                        icon: iconsMap['ios-person']//require('../utils/signup.png')
-                      }
-                    }
-                  }*/
-                }
+                }*/
               ]
             }
           }],

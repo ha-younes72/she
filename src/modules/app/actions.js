@@ -56,6 +56,14 @@ export function retrieveMyCoursesSuccess(res) {
 	};
 }
 
+export function retrieveMyCoursesNothing() {
+	return {
+		type: types.RETRIEVE_MY_COURSES_NOTHING,
+		//data: res.data,
+		//meta: res.meta
+	};
+}
+
 export function retrieveMyCoursesFail(res) {
 	return {
 		type: types.RETRIEVE_MY_COURSES_FAIL,
@@ -88,20 +96,24 @@ export function retrieveMyCourses(token, id) {
 			.then(res => {
 				//(async () => {
 				//	crss = ['jkh']
-				res.data.data.learnings.data.map((crs, index) => {
-					console.log(API_URL + 'courses/' + crs.course_id)
-					axios
-						.get(API_URL + 'courses/' + crs.course_id)
-						.then(res1 => {
-							dispatch(retrieveMyCoursesSuccess({ data: res1.data.data }));
-							//crss.concat(res.data.data)
-							console.log('Crs Response: ', res1.data.data)
-							//crss.concat(res.data.data)
-						})
-						.catch(error => {
-							console.log('Crs Error: ', error.response ? error.response : error)
-						})
-				})
+				if (res.data.data.learnings.data.length > 0) {
+					res.data.data.learnings.data.map((crs, index) => {
+						console.log(API_URL + 'courses/' + crs.course_id + '?api_token=' + token)
+						axios
+							.get(API_URL + 'courses/' + crs.course_id + '?api_token=' + token)
+							.then(res1 => {
+								dispatch(retrieveMyCoursesSuccess({ data: res1.data.data }));
+								//crss.concat(res.data.data)
+								console.log('Crs Response: ', res1.data.data)
+								//crss.concat(res.data.data)
+							})
+							.catch(error => {
+								console.log('Crs Error: ', error.response ? error.response : error)
+							})
+					})
+				} else {
+					dispatch(retrieveMyCoursesNothing());
+				}
 				//console.log('CRSS: ', crss)
 				//return crss
 				//})
@@ -119,7 +131,7 @@ export function retrieveMyCourses(token, id) {
 				*/
 			})
 			.catch(error => {
-				console.log("Error MyCoursesResponse: ", error.response ? err.response : error); //eslint-disable-line
+				console.log("Error MyCoursesResponse: ", error.response ? error.response : error); //eslint-disable-line
 				dispatch(retrieveMyCoursesFail({ msg: 'قادر به دریافت دوره های شما نبودیم ' }));
 				Alert.alert('خطای سرور', 'قادر به دریافت دوره های شما نبودیم ')
 
@@ -135,6 +147,281 @@ export function retrieveMyCourses(token, id) {
 	};
 }
 
+export function retrieveMyFavoritesSuccess(res) {
+	return {
+		type: types.RETRIEVE_MY_FAVORITES_SUCCESS,
+		data: res,
+		//meta: res.meta
+	};
+}
+
+export function retrieveMyFavorites(token) {
+	return function (dispatch) {
+		console.log(API_URL + 'userpanel/favorates/get_favorates' + '?api_token=' + token)
+		axios.get(API_URL + 'userpanel/favorates/get_favorates' + '?api_token=' + token)
+			.then(res => {
+				console.log(' Fav Res: ', res.data.data.map((val) => (val.course_id)))
+				dispatch(retrieveMyFavoritesSuccess(res.data.data.map((val) => (val.course_id))))
+			})
+			.catch(error => {
+				console.log(' Fav Err: ', error.response ? error.response : error)
+			})
+	}
+}
+
+export function addToMyFavoritesSuccess(res) {
+	return {
+		type: types.ADD_MY_FAVORITES_SUCCESS,
+		data: res,
+		//meta: res.meta
+	};
+}
+
+export function addToMyFavorites(token, uId, cId) {
+	return function (dispatch) {
+		console.log(API_URL + 'userpanel/favorates/add_tolist')
+		axios
+			.post(
+				API_URL + 'userpanel/favorates/add_tolist',
+				{
+					user_id: uId,
+					course_id: cId
+				},
+				{
+					headers: {
+						'Authorization': `Bearer ${token}`
+					}
+				}
+			)
+			.then(res => {
+				console.log('Add to Fav Res: ', res.data)
+				dispatch(addToMyFavoritesSuccess(cId))
+			})
+			.catch(error => {
+				console.log('Add to Fav Err: ', error.response ? error.response : error)
+			})
+	}
+}
+
+export function removeFromMyFavoritesSuccess(res) {
+	return {
+		type: types.REMOVE_MY_FAVORITES_SUCCESS,
+		data: res,
+		//meta: res.meta
+	};
+}
+
+export function removeFromMyFavorites(token, uId, cId) {
+	return function (dispatch) {
+		console.log(API_URL + 'userpanel/favorates/delete_item')
+		axios
+			.post(
+				API_URL + 'userpanel/favorates/delete_item',
+				{
+					user_id: uId,
+					course_id: cId
+				},
+				{
+					headers: {
+						'Authorization': `Bearer ${token}`
+					}
+				}
+			)
+			.then(res => {
+				console.log('Rm From Fav Res: ', res.data)
+				dispatch(removeFromMyFavoritesSuccess(cId))
+			})
+			.catch(error => {
+				console.log('Rm from Fav Err: ', error.response ? error.response : error)
+			})
+	}
+}
+
+export function addCommentSuccess() {
+	return {
+		type: types.ADD_COMMENT_SUCCESS,
+		//data: res,
+		//meta: res.meta
+	};
+}
+
+export function addComment(token, comment, uId, cId) {
+	return function (dispatch) {
+		console.log(API_URL + 'userpanel/courses/send_comment')
+		axios
+			.post(
+				API_URL + 'userpanel/courses/send_comment',
+				{
+					comment: comment,
+					user_id: uId,
+					course_id: cId
+				},
+				{
+					headers: {
+						'Authorization': `Bearer ${token}`
+					}
+				}
+			)
+			.then(res => {
+				console.log('Add Comment: ', res.data)
+				dispatch(addCommentSuccess())
+			})
+			.catch(error => {
+				console.log('Add Comment Err: ', error.response ? error.response : error)
+			})
+	}
+}
+
+export function retrieveVideoUrlSuccess(link) {
+	return {
+		type: types.RETRIEVE_VIDEO_URL_SUCCESS,
+		link: link
+	}
+}
+
+export function retrieveVideoUrlFail(message) {
+	return {
+		type: types.RETRIEVE_VIDEO_URL_FAIL,
+		message: message
+	}
+}
+
+export function retrieveVideoUrl(cId, eId, token) {
+	return function (dispatch) {
+		console.log(API_URL + 'get_download_link' + '?course_id=' + cId + '&episode_number=' + eId + '&api_token=' + token)
+		axios.get(API_URL + 'get_download_link' + '?course_id=' + String(cId) + '&episode_number=' + String(eId) + '&api_token=' + token)
+			.then(res => {
+				console.log('DownloadLink: ', res)
+				//Alert.alert('Link', res.data)
+				dispatch(retrieveVideoUrlSuccess(res.data))
+			})
+			.catch(error => {
+				console.log("Erorr DownloadLink: ", error.response ? error.response : error); //eslint-disable-line
+				dispatch(retrieveVideoUrlFail('قادر به دریافت دوره های شما نبودیم '));
+				//Alert.alert('خطای سرور', 'قادر به دریافت دوره های شما نبودیم ')
+			});
+	};
+}
+
+export function retrieveMyFavoriteCoursesSuccess(crs) {
+	return {
+		type: types.RETRIEVE_MY_FAVORITE_COURSES_SUCCESS,
+		data: crs
+	}
+}
+
+export function retrieveMyFavoriteCoursesNothing() {
+	return {
+		type: types.RETRIEVE_MY_FAVORITE_COURSES_NOTHING,
+		//data: crs
+	}
+}
+
+export function retrieveMyFavoriteCourses(token) {
+	return async function (dispatch) {
+		console.log(API_URL + 'userpanel/favorates/get_favorates' + '?api_token=' + token)
+		axios.get(API_URL + 'userpanel/favorates/get_favorates' + '?api_token=' + token)
+			.then(res => {
+				console.log(' Fav Res: ', res.data.data.map((val) => (val.course_id)))
+				if (res.data.data.length > 0) {
+					res.data.data.map((crs, index) => {
+						console.log(API_URL + 'courses/' + crs.course_id + '?api_token=' + token)
+						axios
+							.get(API_URL + 'courses/' + crs.course_id + '?api_token=' + token)
+							.then(res1 => {
+								dispatch(retrieveMyFavoriteCoursesSuccess(res1.data.data))
+								//dispatch(retrieveMyCoursesSuccess({ data: res1.data.data }));
+								//crss.concat(res.data.data)
+								console.log('Fav Crs Response: ', res1.data.data)
+								//crss.concat(res.data.data)
+							})
+							.catch(error => {
+								console.log('Fav Crs Error: ', error.response ? error.response : error)
+							})
+					})
+				} else {
+					dispatch(retrieveMyFavoriteCoursesNothing());
+				}
+			})
+			.catch(error => {
+				console.log(' Fav Err: ', error.response ? error.response : error)
+			})
+	}
+}
+
+export function removeMyFavoriteCoursesSuccess() {
+	return {
+		type: types.REMOVE_MY_FAVORITE_COURSES_SUCCESS,
+		//data: crs
+	}
+}
+
+export function removeMyFavoriteCourses() {
+	return async function (dispatch) {
+		dispatch(removeMyFavoriteCoursesSuccess())
+	}
+}
+
+export function addToWatchedSuccess(cId, eId, episodes) {
+	return {
+		type: types.ADD_TO_WATCHED,
+		cId: cId,
+		eId: eId,
+		episodes: episodes
+	}
+}
+
+export function addToWatched(cId, eId, episodes) {
+	return async function (dispatch) {
+		const jdata = await AsyncStorage.getItem('watchedCourses')
+		var data = JSON.parse(jdata)
+		console.log('Watch Local: ', data)
+		if (jdata === null) {
+			temp = {}
+			temp[cId] = [eId]
+			await AsyncStorage.setItem('watchedCourses', JSON.stringify(temp))
+		} else {
+			if (Object.keys(data).includes(`${cId}`)) {
+				data[`${cId}`] = data[`${cId}`].concat(eId)
+				console.log('Watch Local1: ', data[`${cId}`])
+				await AsyncStorage.setItem('watchedCourses', JSON.stringify(data))
+			} else {
+				data[`${cId}`] = [eId]
+				console.log('Watch Local2: ', data)
+				await AsyncStorage.setItem('watchedCourses', JSON.stringify(data))
+			}
+		}
+		dispatch(addToWatchedSuccess(cId, eId, episodes))
+	}
+}
+
+export function retrieveWatchedCoursesSuccess(data, all) {
+	return {
+		type: types.RETRIEVE_WATCHED_SUCCESS,
+		data : data,
+		all: all
+	}
+}
+
+export function retrieveWatchedCourses() {
+	return async function (dispatch) {
+		const data = await AsyncStorage.getItem('watchedCourses')
+		const all = await AsyncStorage.getItem('allWatched')
+		if (data === null) {
+			if (all===null) {
+				dispatch(retrieveWatchedCoursesSuccess({}, []))	
+			}else{
+				dispatch(retrieveWatchedCoursesSuccess({}, JSON.parse(all)))
+			}
+		}else{
+			if (all===null) {
+				dispatch(retrieveWatchedCoursesSuccess(JSON.parse(data), []))	
+			}else{
+				dispatch(retrieveWatchedCoursesSuccess(JSON.parse(data), JSON.parse(all)))
+			}
+		}
+	}
+}
 export function addPhotoSuccess(imgUri) {
 	return {
 		type: types.ADD_TO_NEWOBSERVATIONS_SUCCESS,
@@ -221,6 +508,7 @@ export function addTimeandLoc(time, lon, lat, user, currentIndex) {
 		dispatch(addTimeandLocSuccess(time, lon, lat));
 	};
 }
+
 
 export function addHumanstoNewObservationSuccess(human) {
 	return {

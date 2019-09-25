@@ -1,8 +1,8 @@
 const validation = {
   email: {
-    presence: {
+    /*presence: {
       message: '^لطفا آدرس پست الکترونیکی خود را وارد کنید'
-    },
+    },*/
     email: {
       message: '^لطفا پست الکترونیکی با فرمت صحیح را وارد کنید'
     }

@@ -5,6 +5,9 @@ import {
   //	Text,
   //	TextInput,
   TouchableOpacity,
+  ImageBackground,
+  Image,
+  //Alert
   //ScrollView
 } from 'react-native'
 
@@ -45,6 +48,8 @@ import validate from './validators/validate_wrapper'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as userActions from './actions';
+import NetInfo from "@react-native-community/netinfo";
+
 //import { NetInfo } from 'react-native'
 //import { RadioGroup, CheckBox } from "react-native-btr";
 
@@ -58,6 +63,8 @@ class SignIn extends React.Component {
     //cameraPermission: false,
     //isRegistering: false,
     isSubmiting: false,
+    textSecure: false,
+    isFocused: false
     //showPass: false,
   }
 
@@ -73,6 +80,14 @@ class SignIn extends React.Component {
   }
 
   submit = () => {
+
+    /*NetInfo.fetch().then(state => {
+      console.log("Connection type", state.type);
+      console.log("Is connected?", state.isConnected);
+      //Alert.alert(String(state.isConnected), String(state.type))
+      //Alert.alert("Is connected?", String(state.isConnected))
+    })
+    */
 
     const mobileError = validate('mobile', this.state.mobile)
     const passwordError = validate('password', this.state.password)
@@ -97,9 +112,12 @@ class SignIn extends React.Component {
         mobileError: '',
         isSubmiting: true
       }, () => {
-        if (this.props.status) { this.props.actions.signinUser(user, this.props.status) }
+        if (this.props.status) { this.props.actions.signinUser(user) }
         else {
           //this.props.actions.signinUser(user, this.props.status)
+          this.setState({
+            isSubmiting: false
+          })
           Alert.alert('آفلاین',
             'لطفا ارتباط حود را کنترل کنید و دوباره تلاش کنید')
         }
@@ -110,95 +128,125 @@ class SignIn extends React.Component {
   render() {
     return (
       <Container>
-        <Content
-          //padder
-          contentContainerStyle={styles.container}
-        >
-          <Form
-            style={{
-              width: '90%'
-            }}
+        {/*<ImageBackground source={require('../../../images/banner_5.jpg')}
+          style={{
+            width: '100%',
+            height: '100%',
+            //justifyContent: 'flex-end',
+            //alignItems: 'flex-end'
+          }}>
+            */}
+          <Content
+            //padder
+            contentContainerStyle={styles.container}
           >
-            <Input
-              onChangeText={val => this.onChangeText('mobile', val)}
-              placeholder='شماره موبایل'
-              value={this.state.mobile}
-              onBlur={() => {
-                this.setState({
-                  mobileError: validate('mobile', this.state.mobile)
-                })
+            {
+              <Image
+                source={require('../../../images/logomastershe.png')}
+                style={{
+                  //position: 'absolute',
+                  //top: 5,
+                  //left: 0,
+                  width: '100%',
+                  height: 120,
+                  resizeMode: 'contain',
+                  opacity: 0.8,
+                  marginBottom: 25
+                }}
+              />
+            }
+            <Form
+              style={{
+                width: '90%',
+                backgroundColor: this.state.isFocused ? 'white' : null,
               }}
-
-              leftIcon={
-                <IconWithBadge
-                  style={{ margin: 0 }}
-                  name='ios-mail'
-                  size={24}
-                  color={colors.primary}
-                />
-              }
-
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.mobileError ? this.state.mobileError : null}
-            ></Input>
-
-            <Input
-              onChangeText={val => this.onChangeText('password', val)}
-              placeholder='رمز عبور'
-              value={this.state.password}
-              onBlur={() => {
-                this.setState({
-                  passwordError: validate('password', this.state.password)
-                })
-              }}
-
-              leftIcon={
-                <IconWithBadge
-                  style={{ margin: 0 }}
-                  name='ios-key'
-                  size={24}
-                  color={colors.primary}
-                />
-              }
-
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.passwordError ? this.state.passwordError : null}
-            ></Input>
-
-          </Form>
-          <View style={{
-            //flex:1,
-            width: '90%',
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            paddingTop: 35
-          }}
-          >
-            <Button
-              //bordered
-              full
-              //rounded
-              //iconLeft
-              //large
-              style={{ backgroundColor: colors.primary }}
-              disabled={this.state.isSubmiting}
-            //disabled={true}
-            //style={{ marginHorizontal: 20 }}
             >
+              <Input
+                onChangeText={val => this.onChangeText('mobile', val)}
+                placeholder='شماره موبایل'
+                onFocus={() => this.setState({ isFocused: true })}
+                value={this.state.mobile}
+                onBlur={() => {
+                  this.setState({
+                    mobileError: validate('mobile', this.state.mobile)
+                  })
+                }}
+
+                leftIcon={
+                  <IconWithBadge
+                    style={{ margin: 0 }}
+                    name='ios-phone-portrait'
+                    size={24}
+                    color={colors.primary}
+                  />
+                }
+
+                errorStyle={{ color: 'red' }}
+                errorMessage={this.state.mobileError ? this.state.mobileError : null}
+              ></Input>
+
+              <Input
+                onChangeText={val => this.onChangeText('password', val)}
+
+                contentContainerStyle={{ backgroundColor: 'red' }}
+                style={{ backgroundColor: 'green' }}
+                //textContentType={'newPassword'}
+                placeholder='رمز عبور'
+                onFocus={() => this.setState({ isFocused: true, textSecure: true })}
+                secureTextEntry={this.state.textSecure}
+                value={this.state.password}
+                onBlur={() => {
+                  this.setState({
+                    passwordError: validate('password', this.state.password)
+                  })
+                }}
+
+                leftIcon={
+                  <IconWithBadge
+                    style={{ margin: 0 }}
+                    name='ios-key'
+                    size={24}
+                    color={colors.primary}
+                  />
+                }
+
+                errorStyle={{ color: 'red' }}
+                errorMessage={this.state.passwordError ? this.state.passwordError : null}
+              ></Input>
+
+            </Form>
+            <View style={{
+              //flex:1,
+              width: '90%',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              paddingTop: 35
+            }}
+            >
+
               <TouchableOpacity
                 onPress={() => this.submit()}
-                style={{ flexDirection: 'row' }}
+                style={{
+                  width: '50%',
+                  padding: 10,
+                  borderRadius: 5,
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: colors.primary
+                }}
               >
                 {
                   this.state.isSubmiting
-                    ? this.props.submittingFinished ? <Text style={{ color: 'white', fontSize:20 }}>ورود</Text> : <ProgressBar />
-                    : <Text style={{ color: 'white', fontSize:20 }}>ورود</Text>
+                    ? this.props.submittingFinished ?
+                      <Text style={{ color: 'white', fontSize: 20,fontFamily:'IRANSansMobile' }}>ورود</Text> : <ProgressBar />
+                    : <Text style={{ color: 'white', fontSize: 20,fontFamily:'IRANSansMobile' }}>ورود</Text>
 
                 }
               </TouchableOpacity>
-            </Button>
-          </View>
-        </Content>
+            </View>
+          </Content>
+        {/*</ImageBackground>*/}
       </Container>
     )
   }

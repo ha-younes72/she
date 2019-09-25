@@ -2,7 +2,10 @@ import React from 'react'
 import { Component } from 'react'
 import {
   View,
-  StyleSheet
+  StyleSheet,
+  ImageBackground,
+  Image,
+  Alert
 } from 'react-native'
 
 import { goToAuth } from '../utils/navigation'
@@ -21,14 +24,14 @@ class Initialising extends Component {
 
   async componentDidMount() {
     //NetInfo.isConnected.addEventListener('connectionChange', this.handleConnectivityChange);
-    NetInfo.fetch().then(state => {
+    await NetInfo.fetch().then(state => {
       console.log("Connection type", state.type);
       console.log("Is connected?", state.isConnected);
       this.setState({ isConnected: state.isConnected }, () => {
         this.props.actions.setStatus(this.state.isConnected)
       })
-    });
-    
+    })
+
     try {
       //await AsyncStorage.clear()
       const userToken = await AsyncStorage.getItem('userToken');
@@ -43,7 +46,12 @@ class Initialising extends Component {
       } else {
         user = JSON.parse(userToken);
         console.log("User From Async", user)
-        this.props.actions.signinUser(user);
+        if (this.state.isConnected) {
+          this.props.actions.signinUser(user);
+        } else {
+          Alert.alert('آفلاین', 'لطفا ابتدا به اینترنت متصل شده و دوباره تلاش کنید')
+          goToAuth();
+        }
       }
     } catch (err) {
       console.log('error: ', err)
@@ -58,7 +66,28 @@ class Initialising extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ProgressBar />
+        {/*<ImageBackground source={require('../../images/banner_5.jpg')}
+          style={{
+            width: '100%',
+            height: '100%',
+            justifyContent: 'flex-end',
+            //alignItems: 'flex-end'
+          }}>*/
+        }
+          {
+            <Image
+              source={require('../../images/logomastershe.png')}
+              style={{
+                width: '50%',
+                resizeMode: 'contain',
+                opacity: 0.9
+              }}
+            />
+          }
+          {
+            //<ProgressBar />
+          }
+        {/*</ImageBackground>*/}
       </View>
     )
   }

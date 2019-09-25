@@ -13,37 +13,52 @@ export default styles = StyleSheet.create({
         //alignItems: 'center'
     },
     container:{
-        backgroundColor:'white'
+        flex:1,
+        justifyContent:'center',
+        alignItems:'center'
     },
     flatList: {
         flex: 1,
         padding: 7
     },
     header: {
-        //position: 'absolute',
-        //top: 0,
-        //left: 0,
-        backgroundColor: 'white', //"#00BFFF",
-        height: 200,
+      position:'relative',
+      top: 10,
+      left: 0,
+      //backgroundColor: 'white', //"#00BFFF",
+      width : '50%',
+      height: 100,
+      justifyContent: 'center',
+      alignItems:"center",
+      opacity: 1
+    },
+    footer: {
+      position:'absolute',
+      bottom: 0,
+      left: 0,
+      //backgroundColor: 'white', //"#00BFFF",
+      width : '100%',
+      //height: '200',
+      opacity: 1
     },
     avatar: {
-        width: 140,
-        height: 140,
-        borderRadius: 70,
-        borderWidth: 2,
-        borderColor: colors.primary,
-        //marginBottom: 10,
+        width: 130,
+        height: 130,
+        borderRadius: 63,
+        borderWidth: 4,
+        borderColor: "white",
+        marginBottom: 10,
         alignSelf: 'center',
-        position: 'relative',
-        marginTop: 60
+        position: 'absolute',
+        marginTop: 30
     },
     name: {
-        fontSize: 14,
+        fontSize: 22,
         color: "#FFFFFF",
-        //fontWeight: '600',
+        fontWeight: '600',
     },
     body: {
-        marginTop: 10,
+        marginTop: 40,
     },
     infoContent: {
         flex: 1,
@@ -85,7 +100,7 @@ export default styles = StyleSheet.create({
     },
     leftText:{
         fontSize: 16,
-        color: "black",
+        color: "#696969",
         marginTop: 10,
         textAlign: 'left'
     },
@@ -138,7 +153,7 @@ export default styles = StyleSheet.create({
     seperator: {
         backgroundColor: colors.primary,
         height: 1,
-        width: '100%',
+        width: '15%',
         marginTop: 3
         //flex:1
     },

@@ -39,11 +39,29 @@ export default function (state = initialState.auth, action) {
                 ...state,
                 status: action.status
             }
-            case types.CLEAR_AUTH_ERROR:
+        case types.CLEAR_AUTH_ERROR:
             return {
                 ...state,
                 message: action.message
             };
+
+        case types.UPDATE_USER_SUCCESS:
+            return {
+                ...state,
+                errors: null
+            }
+
+        case types.UPDATE_USER_FAIL:
+            return {
+                ...state,
+                errors: action.errors
+            }
+        case types.LOG_OUT_SUCCESS:
+            return {
+                ...state,
+                //user: null,
+                //token: null
+            }
 
         case types.ADD_TO_FAVORITE_CATEGORIES_SUCCESS:
             return {

@@ -1,5 +1,6 @@
 import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function (state = initialState.app, action) {
 	switch (action.type) {
@@ -15,8 +16,112 @@ export default function (state = initialState.app, action) {
 			return {
 				...state,
 				myCourses: state.myCourses.concat(action.data),
+				myCoursesIds: state.myCoursesIds.concat(action.data.id)
 				//myCoursesMeta: action.meta
 			}
+
+		case types.RETRIEVE_MY_COURSES_NOTHING:
+			return {
+				...state,
+				myCourses: [],
+				//myCoursesMeta: action.meta
+			}
+		case types.RETRIEVE_MY_FAVORITES_SUCCESS:
+			return {
+				...state,
+				favorites: action.data
+			}
+
+		case types.ADD_MY_FAVORITES_SUCCESS:
+			return {
+				...state,
+				favorites: state.favorites.concat(action.data)
+			}
+
+		case types.REMOVE_MY_FAVORITES_SUCCESS:
+			return {
+				...state,
+				favorites:
+					state.favorites.length === 1
+						?
+						[]
+						:
+						state.favorites.findIndex((value) => (value === action.data)) === 0
+							?
+							state.favorites.slice(1, state.favorites.length)
+							:
+							state.favorites.findIndex((value) => (value === action.data)) === state.favorites.length - 1
+								?
+								state.favorites.slice(0, state.favorites.length - 1)
+								:
+								state.favorites.slice(0, index).concat(state.favorites.slice(index + 1, state.favorites.length))
+			}
+
+		case types.ADD_COMMENT_SUCCESS:
+			return {
+				...state
+			}
+
+		case types.RETRIEVE_MY_FAVORITE_COURSES_NOTHING:
+			return {
+				...state,
+				myFavCourses: []
+			}
+
+		case types.RETRIEVE_MY_FAVORITE_COURSES_SUCCESS:
+			return {
+				...state,
+				myFavCourses: state.myFavCourses.concat(action.data)
+			}
+
+		case types.REMOVE_MY_FAVORITE_COURSES_SUCCESS:
+			return {
+				...state,
+				myFavCourses: []
+			}
+
+		case types.RETRIEVE_VIDEO_URL_SUCCESS:
+			return {
+				...state,
+				videoUrl: action.link
+			}
+
+		case types.RETRIEVE_VIDEO_URL_FAIL:
+			return {
+				...state,
+				message: action.message
+			}
+
+		case types.ADD_TO_WATCHED:
+			temp = JSON.parse(JSON.stringify(state.watchedMovies))
+			console.log('temp: ', temp)
+			cId = action.cId
+			eId = action.eId
+			Object.keys(state.watchedMovies).includes(`${cId}`)
+				?
+				temp[cId] = state.watchedMovies[action.cId].concat(action.eId)
+				:
+				temp[cId] = [action.eId]
+			allWatched = true
+			action.episodes.map((ep, idx)=>{
+				if (!temp[cId].includes(ep.number)) {
+					allWatched = false
+				}
+			})
+			console.log('temp2: ', temp)
+			AsyncStorage.setItem('allWatched', allWatched ? JSON.stringify([...state.allWatched, cId]) : JSON.stringify(state.allWatched))
+			return {
+				...state,
+				watchedMovies: temp,
+				allWatched: allWatched ? [...state.allWatched, cId] : state.allWatched
+			}
+		
+			case types.RETRIEVE_WATCHED_SUCCESS:
+				return {
+					...state,
+					watchedMovies: action.data,
+					allWatched: action.all
+				}
 
 		case types.RETRIEVE_OBSERVATIONS_SUCCESS:
 			return {

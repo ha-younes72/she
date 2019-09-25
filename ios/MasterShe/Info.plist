@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>AwesomeProject</string>
+	<string>MasterShe</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -71,6 +71,10 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Iranian Sans.ttf</string>
+		<string>A Iranian Sans.ttf</string>
+		<string>IRANSansMobile.ttf</string>
+		<string>Halter.ttf</string>
 	</array>
 </dict>
 </plist>

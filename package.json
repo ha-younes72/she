@@ -1,5 +1,5 @@
 {
-  "name": "AwesomeProject",
+  "name": "MasterShe",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -17,11 +17,11 @@
     "react-native": "0.59.9",
     "react-native-af-video-player": "^0.2.1",
     "react-native-btr": "^1.1.4",
-    "react-native-camera-kit": "^8.0.1",
     "react-native-elements": "^1.1.0",
-    "react-native-geolocation-service": "^3.0.0",
+    "react-native-fs": "2.13.x",
     "react-native-image-picker": "0.x.x",
     "react-native-navigation": "^2.26.3",
+    "react-native-navigation-bar-color": "^0.1.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-video": "4.x.x",
     "react-redux": "^7.1.0",
@@ -31,6 +31,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "rn-fetch-blob": "0.10.15",
     "rn-modal-picker": "^0.2.3",
     "validate.js": "^0.13.1"
   },
@@ -44,5 +45,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }

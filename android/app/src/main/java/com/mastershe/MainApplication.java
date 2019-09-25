@@ -1,16 +1,19 @@
-package com.awesomeproject;
+package com.mastershe;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.RNFetchBlob.RNFetchBlobPackage;
+import com.reactnativecommunity.netinfo.NetInfoPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.rnfs.RNFSPackage;
+import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 import com.reactnativecommunity.slider.ReactSliderPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.github.yamill.orientation.OrientationPackage;
 import com.corbt.keepawake.KCKeepAwakePackage;
 import com.brentvatne.react.ReactVideoPackage;
-import com.imagepicker.ImagePickerPackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.wix.RNCameraKit.RNCameraKitPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -22,8 +25,8 @@ import com.reactnativenavigation.NavigationApplication;
 import com.reactnativenavigation.react.NavigationReactNativeHost;
 import com.reactnativenavigation.react.ReactGateway;
 
-import com.wix.RNCameraKit.RNCameraKitPackage;
-import com.agontuk.RNFusedLocation.RNFusedLocationPackage;
+
+import com.thebylito.navigationbarcolor.NavigationBarColorPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -52,15 +55,18 @@ public class MainApplication extends NavigationApplication {
         return Arrays.<ReactPackage>asList(
 			    new AsyncStoragePackage(),
           new VectorIconsPackage(),
-          new RNCameraKitPackage(),
-          new RNFusedLocationPackage(),
+          //new RNCameraKitPackage(),
+          //new RNFusedLocationPackage(),
           new NetInfoPackage(),
           new ImagePickerPackage(),
-		new ReactVideoPackage(),
-		new KCKeepAwakePackage(),
-		new OrientationPackage(),
-		new LinearGradientPackage(),
-		new ReactSliderPackage()
+          new ReactVideoPackage(),
+          new KCKeepAwakePackage(),
+          new OrientationPackage(),
+          new LinearGradientPackage(),
+          new ReactSliderPackage(),
+          new NavigationBarColorPackage(),
+	  new RNFSPackage(),
+	  new RNFetchBlobPackage()
         );
     }
   
@@ -82,14 +88,17 @@ public class MainApplication extends NavigationApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFetchBlobPackage(),
+            new NetInfoPackage(),
+            new ImagePickerPackage(),
+            new RNFSPackage(),
+            new NavigationBarColorPackage(),
             new ReactSliderPackage(),
             new LinearGradientPackage(),
             new OrientationPackage(),
             new KCKeepAwakePackage(),
             new ReactVideoPackage(),
-            new ImagePickerPackage(),
             new NetInfoPackage(),
-            new RNCameraKitPackage(),
             new AsyncStoragePackage(),
             new VectorIconsPackage()
       );

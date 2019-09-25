@@ -102,7 +102,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.awesomeproject"
+        applicationId "com.mastershe"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         missingDimensionStrategy "RNN.reactNativeVersion", "reactNative57_5" // See note below!
@@ -151,14 +151,17 @@ android {
 }
 
 dependencies {
+    implementation project(':rn-fetch-blob')
+    implementation project(':@react-native-community_netinfo')
+    implementation project(':react-native-image-picker')
+    implementation project(':react-native-fs')
+    implementation project(':react-native-navigation-bar-color')
     implementation project(':@react-native-community_slider')
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-orientation')
     implementation project(':react-native-keep-awake')
     implementation project(':react-native-video')
-    implementation project(':react-native-image-picker')
     implementation project(':@react-native-community-netinfo')
-    implementation project(':react-native-camera-kit')
     implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-vector-icons')
 //    implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -168,7 +171,6 @@ dependencies {
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
     implementation project(':react-native-navigation')
-    implementation project(':react-native-geolocation-service')
     //implementation(project(':react-native-geolocation-service')) {
     //    exclude group: 'com.google.android.gms', module: 'play-services-location'
     //}

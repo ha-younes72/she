@@ -1,3 +1,107 @@
+
+import React from 'react'
+import { StyleSheet, View, Text, Alert } from 'react-native'
+import Video from '../_global/react-native-af-video-player'
+//import Video from 'react-native-video';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as appActions from './actions';
+import ProgressBar from '../_global/ProgressBar';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center'
+  }
+})
+
+import changeNavigationBarColor, {
+  HideNavigationBar,
+  ShowNavigationBar,
+} from 'react-native-navigation-bar-color';
+
+//const url = 'http://techslides.com/demos/sample-videos/small.mp4'
+//const url = 'http://mastershe.ir/api/v1/get_download_link?episode_id=10&api_token=sMKQSkt5FMwmkv2fPUZBFMQydgtBfJEXUYUzZ4rem0882N4K1kYOjJAKOl3fFoMIjVwILvVxaxxOwGhZRjH1R6zztCuzgWgP1SsD'
+class Player extends React.Component {
+
+  state = {
+    //cards: [1, 2, 3, 4],
+    url: null,
+    isLoading: true
+  }
+
+  componentDidAppear() {
+    Alert.alert('I am Appearing')
+    HideNavigationBar()
+  }
+
+  componentDidMount() {
+    console.log('I am Appearing')
+    this.props.actions.retrieveVideoUrl(this.props.courseId, this.props.episodeId, this.props.token)
+    HideNavigationBar()
+  }
+  componentWillUnmount() {
+    ShowNavigationBar()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.videoUrl) {
+      this.setState({
+        isLoading: false
+      })
+    }
+  }
+
+  render() {
+    const episodes = this.props.myCourses[this.props.index].episodes.data
+    return (
+      <View style={[styles.container, { backgroundColor: 'black' }]}>
+        {
+          this.state.isLoading ?
+            <ProgressBar />
+            :
+            <Video
+              url={this.props.videoUrl}
+              onEnd={() => {
+                this.props.actions.addToWatched(this.props.courseId, this.props.episodeId, episodes)
+                //Alert.alert('Finished', 'Thank You')
+              }} />
+        }
+        {/*
+          <Video
+            source={{ uri: url }}
+            resizeMode={'contain'}
+            style={{
+              flex: 1
+              //position: 'absolute',
+              //top: 0,
+              //left: 0,
+              //bottom: 0,
+              //right: 0,
+            }} />
+          */}
+      </View>
+    )
+  }
+}
+
+function mapStateToProps(state, ownProps) {
+  return {
+    videoUrl: state.appReducer.videoUrl,
+    token: state.authReducer.token,
+    myCourses: state.appReducer.myCourses
+    //allCoursesMeta: state.appReducer.allCoursesMeta
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(appActions, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);
+
 /*'use strict';
 
 import React, {
@@ -105,8 +209,8 @@ export default class VideoPlayer extends Component {
         >
           <Video
             ref={(ref: Video) => { this.video = ref }}
-            // For ExoPlayer 
-            // source={{ uri: 'http://www.youtube.com/api/manifest/dash/id/bf5bb2419360daf1/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=51AF5F39AB0CEC3E5497CD9C900EBFEAECCCB5C7.8506521BFC350652163895D4C26DEE124209AA9E&key=ik0', type: 'mpd' }} 
+            // For ExoPlayer
+            // source={{ uri: 'http://www.youtube.com/api/manifest/dash/id/bf5bb2419360daf1/source/youtube?as=fmp4_audio_clear,fmp4_sd_hd_clear&sparams=ip,ipbits,expire,source,id,as&ip=0.0.0.0&ipbits=0&expire=19000000000&signature=51AF5F39AB0CEC3E5497CD9C900EBFEAECCCB5C7.8506521BFC350652163895D4C26DEE124209AA9E&key=ik0', type: 'mpd' }}
             source={{ uri: url }}
             style={styles.fullScreen}
             rate={this.state.rate}
@@ -231,43 +335,3 @@ const styles = StyleSheet.create({
   },
 });
 */
-
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import Video from '../_global/react-native-af-video-player'
-//import Video from 'react-native-video';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center'
-  }
-})
-
-//const url = 'http://techslides.com/demos/sample-videos/small.mp4'
-const url = 'http://mastershe.ir/api/v1/get_download_link?episode_id=10&api_token=sMKQSkt5FMwmkv2fPUZBFMQydgtBfJEXUYUzZ4rem0882N4K1kYOjJAKOl3fFoMIjVwILvVxaxxOwGhZRjH1R6zztCuzgWgP1SsD'
-export default class VideoExample extends React.Component {
-
-  render() {
-    return (
-      <View style={styles.container}>
-        {
-         <Video url={url} />
-        }
-        {/*
-          <Video
-            source={{ uri: url }}
-            resizeMode={'contain'}
-            style={{
-              flex: 1
-              //position: 'absolute',
-              //top: 0,
-              //left: 0,
-              //bottom: 0,
-              //right: 0,
-            }} />
-          */}
-      </View>
-    )
-  }
-}

@@ -5,7 +5,9 @@ import {
   //	Text,
   //	TextInput,
   TouchableOpacity,
-  //ScrollView
+  Image,
+  ImageBackground,
+  ScrollView
 } from 'react-native'
 
 import {
@@ -58,6 +60,8 @@ class SignUp extends React.Component {
     //cameraPermission: false,
     //isRegistering: false,
     isSubmiting: false,
+    textSecure: false,
+    isFocused: false
     //showPass: false,
   }
 
@@ -90,8 +94,8 @@ class SignUp extends React.Component {
       var user = {
         password: this.state.password,
         mobile: this.state.mobile,
-        name : this.state.name,
-        email : this.state.email
+        name: this.state.name,
+        email: this.state.email
       }
 
       this.setState({
@@ -112,19 +116,83 @@ class SignUp extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Content
-          //padder
-          contentContainerStyle={styles.container}
-        >
+      
+        <ScrollView contentContainerStyle={[styles.container, {backgroundColor:'white'}]}>
+          {
+            <Image
+              source={require('../../../images/logomastershe.png')}
+              style={{
+                //position: 'absolute',
+                //top: 5,
+                //left: 0,
+                width: '100%',
+                height: 120,
+                resizeMode: 'contain',
+                opacity: 0.8,
+                marginBottom: 25
+              }}
+            />
+          }
           <Form
             style={{
-              width: '90%'
+              width: '90%',
+              backgroundColor: this.state.isFocused ? 'white' : null,
+              //opacity: this.state.isFocused ? 0.3 : 1
             }}
           >
             <Input
+              onChangeText={val => this.onChangeText('mobile', val)}
+              placeholder='شماره موبایل'
+              onFocus={() => this.setState({ isFocused: true })}
+              value={this.state.mobile}
+              onBlur={() => {
+                this.setState({
+                  mobileError: validate('mobile', this.state.mobile)
+                })
+              }}
+
+              leftIcon={
+                <IconWithBadge
+                  style={{ margin: 0 }}
+                  name='ios-phone-portrait'
+                  size={24}
+                  color={colors.primary}
+                />
+              }
+
+              errorStyle={{ color: 'red' }}
+              errorMessage={this.state.mobileError ? this.state.mobileError : null}
+            ></Input>
+
+            <Input
+              onChangeText={val => this.onChangeText('password', val)}
+              placeholder='رمز عبور'
+              onFocus={() => this.setState({ isFocused: true, textSecure: true })}
+              secureTextEntry={this.state.textSecure}
+              value={this.state.password}
+              onBlur={() => {
+                this.setState({
+                  passwordError: validate('password', this.state.password)
+                })
+              }}
+
+              leftIcon={
+                <IconWithBadge
+                  style={{ margin: 0 }}
+                  name='ios-key'
+                  size={24}
+                  color={colors.primary}
+                />
+              }
+
+              errorStyle={{ color: 'red' }}
+              errorMessage={this.state.passwordError ? this.state.passwordError : null}
+            ></Input>
+
+            <Input
               onChangeText={val => this.onChangeText('name', val)}
-              placeholder='نام و نام خانوادگی'
+              onFocus={() => this.setState({ isFocused: true })}
+              placeholder='نام شما'
               value={this.state.name}
               onBlur={() => {
                 this.setState({
@@ -147,6 +215,7 @@ class SignUp extends React.Component {
             <Input
               onChangeText={val => this.onChangeText('email', val)}
               placeholder='پست الکترونیکی'
+              onFocus={() => this.setState({ isFocused: true })}
               value={this.state.email}
               onBlur={() => {
                 this.setState({
@@ -166,51 +235,7 @@ class SignUp extends React.Component {
               errorStyle={{ color: 'red' }}
               errorMessage={this.state.emailError ? this.state.emailError : null}
             ></Input>
-            <Input
-              onChangeText={val => this.onChangeText('mobile', val)}
-              placeholder='شماره موبایل'
-              value={this.state.mobile}
-              onBlur={() => {
-                this.setState({
-                  mobileError: validate('mobile', this.state.mobile)
-                })
-              }}
-
-              leftIcon={
-                <IconWithBadge
-                  style={{ margin: 0 }}
-                  name='ios-mail'
-                  size={24}
-                  color={colors.primary}
-                />
-              }
-
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.mobileError ? this.state.mobileError : null}
-            ></Input>
-
-            <Input
-              onChangeText={val => this.onChangeText('password', val)}
-              placeholder='رمز عبور'
-              value={this.state.password}
-              onBlur={() => {
-                this.setState({
-                  passwordError: validate('password', this.state.password)
-                })
-              }}
-
-              leftIcon={
-                <IconWithBadge
-                  style={{ margin: 0 }}
-                  name='ios-key'
-                  size={24}
-                  color={colors.primary}
-                />
-              }
-
-              errorStyle={{ color: 'red' }}
-              errorMessage={this.state.passwordError ? this.state.passwordError : null}
-            ></Input>
+            
 
           </Form>
           <View style={{
@@ -221,34 +246,30 @@ class SignUp extends React.Component {
             paddingTop: 35
           }}
           >
-            <Button
-              //bordered
-              full
-              //rounded
-              //iconLeft
-              //large
-              style={{ backgroundColor: colors.primary, width: '100%' }}
-              disabled={this.state.isSubmiting}
-            //disabled={true}
-            //style={{ marginHorizontal: 20 }}
-            >
-              <TouchableOpacity
-                onPress={() => this.submit()}
-                style={{ flexDirection: 'row' }}
-              >
-                {
-                  this.state.isSubmiting
-                    ? this.props.submittingFinished
-                      ? <Text style={{ color: 'white', fontSize: 20 }}>ثبت‌نام</Text>
-                      : <ProgressBar />
-                    : <Text style={{ color: 'white', fontSize: 20 }}>ثبت‌نام</Text>
 
-                }
-              </TouchableOpacity>
-            </Button>
+            <TouchableOpacity
+              onPress={() => this.submit()}
+              style={{
+                width: '50%',
+                padding: 10,
+                borderRadius: 5,
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: colors.primary
+              }}
+            >
+              {
+                this.state.isSubmiting
+                  ? this.props.submittingFinished
+                    ? <Text style={{ color: 'white', fontSize: 20,fontFamily:'IRANSansMobile' }}>ثبت‌نام</Text>
+                    : <ProgressBar />
+                  : <Text style={{ color: 'white', fontSize: 20,fontFamily:'IRANSansMobile' }}>ثبت‌نام</Text>
+
+              }
+            </TouchableOpacity>
           </View>
-        </Content>
-      </Container>
+        </ScrollView>
     )
   }
 }
