@@ -57,7 +57,11 @@ class School extends Component {
     scrollY: new Animated.Value(0),
   }
   componentDidMount() {
+    !this.props.myCoursesRetrived
+    ? 
     this.props.actions.retrieveMyCourses(this.props.token, this.props.userId)
+    : 
+    null
   }
 
   componentWillReceiveProps(nextProps) {
@@ -134,51 +138,52 @@ class School extends Component {
                 ?
                 <ProgressBar color={'#D6B569'} />
                 :
-                this.props.myCourses.map((item, index) => (
-                  < Card key={index} style={styles.mb}>
-                    <CardItem bordered>
-                      <Thumbnail source={{ uri: IMG_URL + item.thumb }} />
-                      <Body style={{ paddingLeft: 7, justifyContent: 'center' }}>
-                        <Text style={{ fontFamily: 'IRANSansMobile', fontSize: 12 }}>{item.title}</Text>
-                        <Text note style={{ fontSize: 12, fontFamily: 'IRANSansMobile', textAlign: 'left' }}>
-                          {item.time.split(' ')[0]}
-                        </Text>
-                      </Body>
-                      <Right>
-                        <Button
-                          onPress={() => {
-                            //Alert.alert('Id', String(item.id))
-                            Navigation.push('AppStack', {
-                              component: {
-                                name: 'app.CoursePreview',
-                                passProps: {
-                                  index: index,
-                                  type: 'buy'
+                this.props.myCourses.length > 0 ?
+                  this.props.myCourses.map((item, index) => (
+                    < Card key={index} style={styles.mb}>
+                      <CardItem bordered>
+                        <Thumbnail source={{ uri: IMG_URL + item.thumb }} />
+                        <Body style={{ paddingLeft: 7, justifyContent: 'center' }}>
+                          <Text style={{ fontFamily: 'IRANSansMobile', fontSize: 12 }}>{item.title}</Text>
+                          <Text note style={{ fontSize: 12, fontFamily: 'IRANSansMobile', textAlign: 'left' }}>
+                            {item.time.split(' ')[0]}
+                          </Text>
+                        </Body>
+                        <Right>
+                          <Button
+                            onPress={() => {
+                              //Alert.alert('Id', String(item.id))
+                              Navigation.push('AppStack', {
+                                component: {
+                                  name: 'app.CoursePreview',
+                                  passProps: {
+                                    index: index,
+                                    type: 'buy'
+                                  }
                                 }
-                              }
-                            })
-                            /*
-                            Navigation.push('AppStack', {
-                              component: {
-                                name: 'app.VideosList',
-                                passProps: {
-                                  index: index
+                              })
+                              /*
+                              Navigation.push('AppStack', {
+                                component: {
+                                  name: 'app.VideosList',
+                                  passProps: {
+                                    index: index
+                                  }
                                 }
-                              }
-                            })
-                            */
-                          }}
-                          //iconLeft
-                          style={{
-                            backgroundColor: colors.primary
-                          }}
-                        >
-                          {//<Icon name="play-circle" />
-                          }
-                          <Text style={{ fontFamily: 'IRANSansMobile', fontSize: 16 }}>مشاهده</Text>
-                        </Button>
-                      </Right>
-                      {/*<Left>
+                              })
+                              */
+                            }}
+                            //iconLeft
+                            style={{
+                              backgroundColor: colors.primary
+                            }}
+                          >
+                            {//<Icon name="play-circle" />
+                            }
+                            <Text style={{ fontFamily: 'IRANSansMobile', fontSize: 16 }}>مشاهده</Text>
+                          </Button>
+                        </Right>
+                        {/*<Left>
                       <Thumbnail source={logo} />
                       <Body>
                         <Text>{item.title}</Text>
@@ -206,33 +211,33 @@ class School extends Component {
                         <Text style={{ fontSize: 14 }}>تماشا</Text>
                       </Button>
                     </Right>*/
-                      }
-                    </CardItem>
+                        }
+                      </CardItem>
 
-                    <CardItem>
-                      <Body>
-                        <Image
-                          style={{
-                            alignSelf: "center",
-                            height: 150,
-                            resizeMode: "cover",
-                            width: deviceWidth / 1.18,
-                            marginVertical: 5
-                          }}
-                          source={{ uri: IMG_URL + item.thumb }}
-                        />
-                        {
-                          <Text numberOfLines={7} style={{ fontFamily: 'IRANSansMobile', textAlign: 'justify' }}>
-                            {item.content}
-                            {/*item.topics.data.map((topic, index) => (
+                      <CardItem>
+                        <Body>
+                          <Image
+                            style={{
+                              alignSelf: "center",
+                              height: 150,
+                              resizeMode: "cover",
+                              width: deviceWidth / 1.18,
+                              marginVertical: 5
+                            }}
+                            source={{ uri: IMG_URL + item.thumb }}
+                          />
+                          {
+                            <Text numberOfLines={7} style={{ fontFamily: 'IRANSansMobile', textAlign: 'justify' }}>
+                              {item.content}
+                              {/*item.topics.data.map((topic, index) => (
                               topic.title
                             ))*/}
-                          </Text>
-                        }
-                      </Body>
-                    </CardItem>
-                    <CardItem bordered style={{ paddingVertical: 0 }}>
-                      {/*
+                            </Text>
+                          }
+                        </Body>
+                      </CardItem>
+                      <CardItem bordered style={{ paddingVertical: 0 }}>
+                        {/*
                     <Left>
                       <Button transparent>
                         <Icon name="thumbs-up" />
@@ -240,101 +245,101 @@ class School extends Component {
                       </Button>
                     </Left>
                   */}
-                      <Right>
-                        <Button
-                          iconLeft
-                          transparent
-                          onPress={() => {
-                            !this.props.favorites.includes(item.id)
-                              ?
-                              this.props.actions.addToMyFavorites(this.props.token, this.props.user.user_id, item.id)
-                              :
-                              this.props.actions.removeFromMyFavorites(this.props.token, this.props.user.user_id, item.id)
-                          }}
-                        >
-                          <Icon
-                            name={this.props.favorites.includes(item.id) ? "heart" : "heart-empty"}
-                            style={{ color: !this.props.favorites.includes(item.id) ? colors.iconGray : colors.primary, fontSize: 20 }} />
-                          <Text style={{ fontFamily: 'IRANSansMobile', color: colors.iconGray, fontSize: 16 }}>پسندیدم</Text>
-                        </Button>
-                      </Right>
-                      <Right>
-                        <Button
-                          iconLeft
-                          transparent
-                          onPress={() => {
-                            this.state.cIDCommented !== null && this.state.cIDCommented === item.id
-                              ?
+                        <Right>
+                          <Button
+                            iconLeft
+                            transparent
+                            onPress={() => {
+                              !this.props.favorites.includes(item.id)
+                                ?
+                                this.props.actions.addToMyFavorites(this.props.token, this.props.user.user_id, item.id)
+                                :
+                                this.props.actions.removeFromMyFavorites(this.props.token, this.props.user.user_id, item.id)
+                            }}
+                          >
+                            <Icon
+                              name={this.props.favorites.includes(item.id) ? "heart" : "heart-empty"}
+                              style={{ color: !this.props.favorites.includes(item.id) ? colors.iconGray : colors.primary, fontSize: 20 }} />
+                            <Text style={{ fontFamily: 'IRANSansMobile', color: colors.iconGray, fontSize: 16 }}>پسندیدم</Text>
+                          </Button>
+                        </Right>
+                        <Right>
+                          <Button
+                            iconLeft
+                            transparent
+                            onPress={() => {
+                              this.state.cIDCommented !== null && this.state.cIDCommented === item.id
+                                ?
+                                this.setState({
+                                  cIDCommented: null
+                                })
+                                :
+                                this.setState({
+                                  cIDCommented: item.id
+                                })
+                            }}
+                          >
+                            <Icon name="text" style={{ color: colors.iconGray }} />
+                            <Text style={{ fontFamily: 'IRANSansMobile', color: colors.iconGray, fontSize: 16 }}>نظر</Text>
+                          </Button>
+                        </Right>
+                        <Right>
+                          <Button
+                            iconLeft
+                            transparent
+                            onPress={() => {
+                              Share
+                                .share({
+                                  message: item.link,
+                                  title: item.title
+                                })
+                                .then(res => {
+                                  console.log('Share Result: ', res)
+                                })
+                                .catch(err => {
+                                  console.log('Share Err: ', err)
+                                })
+                            }}
+                          >
+                            <Icon name="share-alt" style={{ color: colors.iconGray }} />
+                            <Text style={{ fontFamily: 'IRANSansMobile', color: colors.iconGray, fontSize: 16 }}>بازنشر</Text>
+                          </Button>
+                        </Right>
+                      </CardItem>
+                      {
+                        this.state.cIDCommented !== null && this.state.cIDCommented === item.id
+                          ?
+                          <CardItem bordered style={{ paddingVertical: 0 }}>
+                            <Body>
+                              <Input
+                                inputStyle={{ fontFamily: 'IRANSansMobile', fontSize: 14 }}
+                                //placeholderStyle={{ color: 'green' }}
+                                onChangeText={val => this.setState({ comment: val })}
+                                placeholder={'نظر خود را وارد کنید'}
+                                value={this.state.comment}
+                              />
+                            </Body>
+                            <Button transparent onPress={() => {
+                              //const text = event.nativeEvent.text
                               this.setState({
                                 cIDCommented: null
+                              }, () => {
+                                console.log('Event: ', this.state.comment)
+                                this.props.actions.addComment(
+                                  this.props.token,
+                                  this.state.comment,
+                                  this.props.user.user_id,
+                                  item.id
+                                )
                               })
-                              :
-                              this.setState({
-                                cIDCommented: item.id
-                              })
-                          }}
-                        >
-                          <Icon name="text" style={{ color: colors.iconGray }} />
-                          <Text style={{ fontFamily: 'IRANSansMobile', color: colors.iconGray, fontSize: 16 }}>نظر</Text>
-                        </Button>
-                      </Right>
-                      <Right>
-                        <Button
-                          iconLeft
-                          transparent
-                          onPress={() => {
-                            Share
-                              .share({
-                                message: item.link,
-                                title: item.title
-                              })
-                              .then(res => {
-                                console.log('Share Result: ', res)
-                              })
-                              .catch(err => {
-                                console.log('Share Err: ', err)
-                              })
-                          }}
-                        >
-                          <Icon name="share-alt" style={{ color: colors.iconGray }} />
-                          <Text style={{ fontFamily: 'IRANSansMobile', color: colors.iconGray, fontSize: 16 }}>بازنشر</Text>
-                        </Button>
-                      </Right>
-                    </CardItem>
-                    {
-                      this.state.cIDCommented !== null && this.state.cIDCommented === item.id
-                        ?
-                        <CardItem bordered style={{ paddingVertical: 0 }}>
-                          <Body>
-                            <Input
-                              inputStyle={{ fontFamily:'IRANSansMobile', fontSize: 14 }}
-                              //placeholderStyle={{ color: 'green' }}
-                              onChangeText={val => this.setState({ comment: val })}
-                              placeholder={'نظر خود را وارد کنید'}
-                              value={this.state.comment}
-                            />
-                          </Body>
-                          <Button transparent onPress={() => {
-                            //const text = event.nativeEvent.text
-                            this.setState({
-                              cIDCommented: null
-                            }, () => {
-                              console.log('Event: ', this.state.comment)
-                              this.props.actions.addComment(
-                                this.props.token,
-                                this.state.comment,
-                                this.props.user.user_id,
-                                item.id
-                              )
-                            })
-                          }}>
-                            <Icon name="checkmark-circle-outline" style={{ color: colors.iconGray }} />
-                          </Button>
-                        </CardItem>
-                        :
-                        null
-                    }
-                    {/*<CardItem bordered style={{ paddingVertical: 0 }}>
+                            }}>
+                              <Icon name="checkmark-circle-outline" style={{ color: colors.iconGray }} />
+                            </Button>
+                          </CardItem>
+                          :
+                          null
+                      }
+                      {/*<CardItem bordered style={{ paddingVertical: 0 }}>
                       <Left>
                         <Button iconLeft transparent onPress={() => this.setState({ liked: true })}>
                           <Icon name={this.state.liked ? "heart-empty" : "heart"} style={{ color: colors.iconGray, fontSize: 20 }} />
@@ -354,8 +359,10 @@ class School extends Component {
                         </Button>
                       </Right>
                       </CardItem>*/}
-                  </Card>
-                ))
+                    </Card>
+                  ))
+                  :
+                  <Text style={{ color: 'black' }}> لیست خالی است. </Text>
             }
           </ScrollView>
         </Content>
@@ -575,7 +582,8 @@ function mapStateToProps(state, ownProps) {
     userId: state.authReducer.user.user_id,
     myCourses: state.appReducer.myCourses,
     myCoursesMeta: state.appReducer.myCoursesMeta,
-    favorites: state.appReducer.favorites
+    favorites: state.appReducer.favorites,
+    myCoursesRetrived : state.appReducer.myCoursesRetrived
   };
 }
 

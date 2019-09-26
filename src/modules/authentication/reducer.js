@@ -22,9 +22,10 @@ export default function (state = initialState.auth, action) {
         case types.SIGNUP_USER_SUCCESS:
             return {
                 ...state,
-                message: action.message,
-                submittingFinished: true
-                //token: action.token
+		    //message: action.message,
+                submittingFinished: true,
+                token: action.token,
+		    user: action.user
             };
 
         case types.SIGNUP_USER_FAIL:

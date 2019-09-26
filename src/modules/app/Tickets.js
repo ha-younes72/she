@@ -182,6 +182,26 @@ class School extends Component {
             </View>
           </View>
         </View>
+        <View
+          style={{
+            position: 'absolute',
+            top: 50,
+            left: 10,
+            width: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: colors.primary,
+            //height: 25,
+            backgroundColor: 'white',
+            //backfaceVisibility: 'hidden',
+            opacity: this.state.showMenu ? 1 : 0
+          }}>
+          <Button transparent onPress={() => this.props.actions.logOut()}>
+            <Text style={{ color: 'black', fontFamily: 'IRANSansMobile' }}>خروج</Text>
+            <Icon name="log-out" color={colors.primary} />
+          </Button>
+        </View>
       </View>
     );
   }

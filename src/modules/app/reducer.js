@@ -16,7 +16,8 @@ export default function (state = initialState.app, action) {
 			return {
 				...state,
 				myCourses: state.myCourses.concat(action.data),
-				myCoursesIds: state.myCoursesIds.concat(action.data.id)
+				myCoursesIds: state.myCoursesIds.concat(action.data.id),
+				myCoursesRetrived : true
 				//myCoursesMeta: action.meta
 			}
 

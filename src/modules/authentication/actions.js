@@ -83,16 +83,33 @@ export function signupUser(user) {
 	console.log('User to be signed up: ', user)
 	return function (dispatch) {
 
+		var body = new FormData();
+		body.append('mobile', user.mobile)
+		body.append('name', user.name)
+		body.append('email', user.email)
+		body.append('password', user.password)
+
 		console.log(API_URL + 'register')
-		axios.post(API_URL + 'register', user)
+		axios.post(API_URL + 'register', body, {headers: {'Accept' : 'application/json'}})
 			.then(res => {
 				console.log('registerResponse: ', res)
-				dispatch(signupUserSuccess(res.meta));
+				dispatch(signupUserSuccess({user: res.data.data, token: res.data.data.api_token}));
 				_signupAsync(user)
 			})
 			.catch(error => {
-				console.log("Error registering: ", error); //eslint-disable-line
-				dispatch(signinUserFail({ message: 'خطای سرور' }));
+				console.log("Error registering: ", error.response ? error.response : error); //eslint-disable-line
+				dispatch(signupUserFail({ message: 'خطای سرور' }));
+				error.response ?
+					Alert.alert('خطا', 
+						error.response.data.errors.mobile ?
+							error.response.data.errors.email ?
+								`${error.response.data.errors.mobile[0]} \n ${error.response.data.errors.email[0]}`: error.response.data.errors.mobile[0] 
+						:
+error.response.data.errors.email ?
+						error.response.data.errors.email[0]
+						: ''
+					)
+					:
 				Alert.alert('خطای سرور', 'خطایی در سرور رخ داده است')
 			});
 	};

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as types from '../../constants/actionTypes';
 import { API_URL, API_KEY } from '../../constants/api';
-import { goHome } from '../../utils/navigation'
+import { goHome, goToAuth } from '../../utils/navigation'
 import { ToastAndroid, Alert } from "react-native";
 import { Navigation } from 'react-native-navigation';
 //import * as authActions from '../authentication/actions';
@@ -422,6 +422,29 @@ export function retrieveWatchedCourses() {
 		}
 	}
 }
+
+
+export function logOutSUCCESS() {
+	return {
+		type: types.LOG_OUT_SUCCESS,
+		//message: null
+	}
+}
+
+export function logOut() {
+	return function (dispatch) {
+		AsyncStorage.removeItem('userToken')
+			.then(() => {
+				dispatch(logOutSUCCESS())
+				//console.log("The user has been stored locally")
+				goToAuth();
+			})
+			.catch(err => {
+				Alert.alert('خطا: ', err);
+			})
+	};
+};
+
 export function addPhotoSuccess(imgUri) {
 	return {
 		type: types.ADD_TO_NEWOBSERVATIONS_SUCCESS,

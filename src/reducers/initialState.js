@@ -9,7 +9,8 @@ export default {
 		myFavCourses: [],
 		watchedMovies:{},
 		allWatched: [],
-		myCoursesIds: []
+		myCoursesIds: [],
+		myCoursesRetrived: false
 		//currentIndex: -1,
 
 	},

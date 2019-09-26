@@ -463,7 +463,7 @@ class School extends Component {
                           //                          subject: JSON.stringify('ﻡﻮﺿﻮﻋ ﺖﺴﺗ'),
                           //                            mobile: JSON.stringify(this.props.mobile)
                           { name: 'text', data: JSON.stringify(this.state.content) },
-                          { name: 'subject', data: JSON.stringify('ﻡﻮﺿﻮﻋ ﺖﺴﺗ') },
+                          { name: 'subject', data: JSON.stringify(this.props.ctitle +"/" + this.props.title) },
                           { name: 'mobile', data: JSON.stringify(this.props.mobile) }
                         ])
                           .uploadProgress((written, total) => {
@@ -662,6 +662,26 @@ class School extends Component {
               </Button>
             </View>
           </View>
+        </View>
+        <View
+          style={{
+            position: 'absolute',
+            top: 50,
+            left: 10,
+            width: 100,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 1,
+            borderColor: colors.primary,
+            //height: 25,
+            backgroundColor: 'white',
+            //backfaceVisibility: 'hidden',
+            opacity: this.state.showMenu ? 1 : 0
+          }}>
+          <Button transparent onPress={() => this.props.actions.logOut()}>
+            <Text style={{ color: 'black', fontFamily: 'IRANSansMobile' }}>خروج</Text>
+            <Icon name="log-out" color={colors.primary} />
+          </Button>
         </View>
       </View>
     );
