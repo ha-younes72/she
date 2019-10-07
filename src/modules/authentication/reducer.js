@@ -47,9 +47,12 @@ export default function (state = initialState.auth, action) {
             };
 
         case types.UPDATE_USER_SUCCESS:
+            let temp = JSON.parse(JSON.stringify(state.user))
+            temp[action.field.name] = action.field.value
             return {
                 ...state,
-                errors: null
+                user: temp,
+                updated: action.field.name === 'avatar' ? true : state.updated
             }
 
         case types.UPDATE_USER_FAIL:

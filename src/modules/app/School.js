@@ -55,6 +55,8 @@ class School extends Component {
     headerThreshold: 100,
     minHieght: 50,
     scrollY: new Animated.Value(0),
+    showDefault: true,
+    error: false
   }
   componentDidMount() {
     !this.props.myCoursesRetrived
@@ -74,6 +76,9 @@ class School extends Component {
   }
 
   render() {
+    var image = this.state.showDefault ?
+      require('../../../images/profile.jpeg') :
+      this.state.error ? require('../../../images/profile.jpeg') : null
     myCoursesTest = [...this.props.myCourses, ...this.props.myCourses]
     const headerDistance = this.state.maxHeight - this.state.minHieght
     const headerHeight = this.state.scrollY.interpolate({
@@ -385,7 +390,7 @@ class School extends Component {
             ></Image>
           </Animated.View>
           {
-            //this.props.user.avatar === null ?
+            this.props.user.avatar === null ?
             <Animated.View
               style={[{
                 width: 140,
@@ -403,7 +408,7 @@ class School extends Component {
               }, { marginTop: avatarMargin, height: avatarHeight, width: avatarHeight }]} >
               <IconWithBadge name='ios-person' color={'white'} size={80} />
             </Animated.View>
-            /*:
+            :
             <Animated.Image
               style={[{
                 width: 140,
@@ -416,9 +421,16 @@ class School extends Component {
                 position: 'absolute',
                 marginTop: 50
               }, { marginTop: avatarMargin, height: avatarHeight, width: avatarHeight }]}
-              source={{ uri: IMG_URL + this.props.user.avatar }}
+              source={image === null ? 
+                { uri: !this.props.updated ? IMG_URL + this.props.user.avatar : this.props.user.avatar }
+                : image
+              }
+              defaultSource={require('../../../images/profile.jpeg')}
+              // onLoadStart={()=>this.setState({showDefault: true})}
+              onLoadEnd={()=>this.setState({showDefault: false})}
+              onError={()=>this.setState({error: true})}
               //{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }
-            />*/
+            />
           }
           <View style={{ flexDirection: 'row', paddingBottom: 15, backgroundColor: 'white', justifyContent: 'center' }}>
             <Text
@@ -583,7 +595,8 @@ function mapStateToProps(state, ownProps) {
     myCourses: state.appReducer.myCourses,
     myCoursesMeta: state.appReducer.myCoursesMeta,
     favorites: state.appReducer.favorites,
-    myCoursesRetrived : state.appReducer.myCoursesRetrived
+    myCoursesRetrived : state.appReducer.myCoursesRetrived,
+    updated: state.authReducer.updated,
   };
 }
 

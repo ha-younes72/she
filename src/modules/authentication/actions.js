@@ -2,7 +2,9 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage'
 import * as types from '../../constants/actionTypes';
 import { API_URL, API_KEY } from '../../constants/api';
-import { goHome, goToAuth } from '../../utils/navigation'
+import { goHome, goToAuth } from '../../utils/navigation';
+var RNFS = require('react-native-fs');
+import RNFetchBlob from 'rn-fetch-blob'
 import { Alert } from 'react-native'
 // Signin User
 export function signinUserSuccess(res) {
@@ -90,27 +92,27 @@ export function signupUser(user) {
 		body.append('password', user.password)
 
 		console.log(API_URL + 'register')
-		axios.post(API_URL + 'register', body, {headers: {'Accept' : 'application/json'}})
+		axios.post(API_URL + 'register', body, { headers: { 'Accept': 'application/json' } })
 			.then(res => {
 				console.log('registerResponse: ', res)
-				dispatch(signupUserSuccess({user: res.data.data, token: res.data.data.api_token}));
+				dispatch(signupUserSuccess({ user: res.data.data, token: res.data.data.api_token }));
 				_signupAsync(user)
 			})
 			.catch(error => {
 				console.log("Error registering: ", error.response ? error.response : error); //eslint-disable-line
 				dispatch(signupUserFail({ message: 'خطای سرور' }));
 				error.response ?
-					Alert.alert('خطا', 
+					Alert.alert('خطا',
 						error.response.data.errors.mobile ?
 							error.response.data.errors.email ?
-								`${error.response.data.errors.mobile[0]} \n ${error.response.data.errors.email[0]}`: error.response.data.errors.mobile[0] 
-						:
-error.response.data.errors.email ?
-						error.response.data.errors.email[0]
-						: ''
+								`${error.response.data.errors.mobile[0]} \n ${error.response.data.errors.email[0]}` : error.response.data.errors.mobile[0]
+							:
+							error.response.data.errors.email ?
+								error.response.data.errors.email[0]
+								: ''
 					)
 					:
-				Alert.alert('خطای سرور', 'خطایی در سرور رخ داده است')
+					Alert.alert('خطای سرور', 'خطایی در سرور رخ داده است')
 			});
 	};
 }
@@ -141,9 +143,10 @@ export function setStatus(status) {
 
 
 // Error Clear
-export function updateUserSUCCESS() {
+export function updateUserSUCCESS(data) {
 	return {
 		type: types.UPDATE_USER_SUCCESS,
+		field: data
 		//message: null
 	}
 }
@@ -155,30 +158,108 @@ export function updateUserFail(errors) {
 	}
 }
 
-export function updateUser(uId, newUser, user, token) {
+export function updateUser(videoSource, name, userId, token) {
 	return function (dispatch) {
-		console.log(API_URL + 'userpanel/profiles/edit/' + uId)
-		console.log(newUser)
-		axios
-			.post(API_URL + 'userpanel/profiles/edit/' + uId + '?api_token=' + token, {
-				tavallod: user.tavallod,
-				account_bank: newUser[2].value,
-				account_owner: user.account_owner,
-				account_kart: newUser[3].value,
-				account_shaba: newUser[4].value,
-			})
-			.then(res => {
-				console.log('UpdateUser:', res)
-				Alert.alert('اطلاعات ثبت شد')
-				dispatch(updateUserSUCCESS());
-			})
-			.catch(err => {
-				console.log('UpdateUser Error:', err.response ? err.response : err)
-				err.response ?
-					dispatch(updateUserFail(err.response.data.errors))
-					:
-					Alert.alert('خطا در برقراری ارتباط با سرور')
-			})
+		// Alert.alert(JSON.stringify(name),JSON.stringify(videoSource))
+		// Alert.alert('name',JSON.stringify(name))
+		// Alert.alert('userId',JSON.stringify(userId))
+		console.log(API_URL + 'userpanel/profiles/edit/' + userId)
+		// console.log(newUser)
+
+		if (videoSource !== null) {
+			console.log('Video to be uploaded: ', videoSource)
+			btoken = 'Bearer ' + token
+			// console.log('Token:', this.props.token)
+
+
+			RNFS
+				.stat(videoSource.path)
+				.then(statRes => {
+					console.log('Stat1 Result: ', statRes)
+				})
+				.catch(err => {
+					console.log('Stat Err: ', err)
+				})
+			var uploadUrl = API_URL + 'userpanel/profiles/update_avatar/' + userId;
+
+			RNFetchBlob.fetch('POST', uploadUrl, {
+				Authorization: btoken,
+				//otherHeader : "foo",
+				// this is required, otherwise it won't be process as a multipart/form-data request
+				'Accept': 'application/json',
+				'Content-Type': 'multipart/form-data',
+			}, [
+				// append field data from file path
+				{
+					name: 'file',
+					filename: videoSource.fileName, // this.state.videoSource.fileName,
+					//filepath: this.state.videoSource.path,
+					//name : 'avatar',
+					//filename : 'avatar.png',
+					// Change BASE64 encoded data to a file path with prefix `RNFetchBlob-file://`.
+					// Or simply wrap the file path with RNFetchBlob.wrap().
+					data: RNFetchBlob.wrap(videoSource.path)
+				},
+				/*{
+					name : 'ringtone',
+					filename : 'ring.mp3',
+					// use custom MIME type
+					type : 'application/mp3',
+					// upload a file from asset is also possible in version >= 0.6.2
+					data : RNFetchBlob.wrap(RNFetchBlob.fs.asset('default-ringtone.mp3'))
+				}*/
+				// elements without property `filename` will be sent as plain text
+				//	  text: JSON.stringify(this.state.content),
+				//user_id: JSON.stringify(this.props.userId),
+				//                          subject: JSON.stringify('ﻡﻮﺿﻮﻋ ﺖﺴﺗ'),
+				//                            mobile: JSON.stringify(this.props.mobile)
+				// { name: 'text', data: JSON.stringify(this.state.content) },
+				// { name: 'subject', data: JSON.stringify(this.props.ctitle + "/" + this.props.title) },
+				// { name: 'mobile', data: JSON.stringify(this.props.mobile) }
+			])
+				.uploadProgress((written, total) => {
+					var percentage = Math.floor((written / total) * 100);
+					console.log('uploaded', written / total)
+				})
+				.progress((received, total) => {
+					console.log('progress', received / total)
+				})
+				.then((resp) => {
+					console.log('Resp: ', resp)
+					// Alert.alert('Ok', JSON.stringify(resp))
+					dispatch(updateUserSUCCESS({ name: 'avatar', value: videoSource.uri }));
+					Alert.alert('موفق', 'عکس شما با موفقیت آپلود شد.')
+					// ...
+				})
+				.catch((err) => {
+					console.log('Err: ', err)
+					Alert.alert('نا موفق', 'آپلود با مشکل روبرو شد، لطفا مجددا تلاش فرمایید.')
+				})
+		} 
+			if (name !== null) {
+				axios
+					.post(API_URL + 'userpanel/profiles/edit/' + userId + '?api_token=' + token, {
+						name: name,
+						// account_bank: newUser[2].value,
+						// account_owner: user.account_owner,
+						// account_kart: newUser[3].value,
+						// account_shaba: newUser[4].value,
+					})
+					.then(res => {
+						console.log('UpdateUser:', res)
+						Alert.alert('اطلاعات ثبت شد')
+						dispatch(updateUserSUCCESS({ name: 'name', value: name }));
+					})
+					.catch(err => {
+						console.log('UpdateUser Error:', err.response ? err.response : err)
+						err.response ?
+							Alert.alert('Error', JSON.stringify(err.response)) // dispatch(updateUserFail(err.response.data.errors))
+							:
+							Alert.alert('خطا در برقراری ارتباط با سرور')
+					})
+			}
+		
+
 	};
 }
 

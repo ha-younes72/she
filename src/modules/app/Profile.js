@@ -49,7 +49,8 @@ import * as userActions from '../authentication/actions';
 import { IMG_URL } from '../../constants/api';
 import { colors } from '../_global/theme';
 import IconWithBadge from '../_global/Icons';
-import {Navigation} from 'react-native-navigation'
+import { Navigation } from 'react-native-navigation'
+import ImagePicker from 'react-native-image-picker';
 
 class Profile extends Component {
   static options(passProps) {
@@ -67,7 +68,9 @@ class Profile extends Component {
     this.state = {
       saveChanges: true,
       isEditing: false,
-      showMenu: false
+      showMenu: false,
+      showDefault: true,
+      error: false
       //isLoading: true,
       //isRefreshing: false
     };
@@ -84,6 +87,12 @@ class Profile extends Component {
 
   componentWillReceiveProps(nextProps) {
 
+  }
+
+  onChangeName = (name) => {
+    this.setState({
+      name: name
+    })
   }
 
   onChangeText = (userInfo, index, value) => {
@@ -108,11 +117,14 @@ class Profile extends Component {
   }
 
   render() {
+    var image = this.state.showDefault ?
+      require('../../../images/profile.jpeg') :
+      this.state.error ? require('../../../images/profile.jpeg') : null
     const userInfo = [
       {
         name: 'ایمیل',
         field: 'email',
-        editable: true,
+        editable: false,
         value: this.props.user.email
       },
       {
@@ -194,28 +206,110 @@ class Profile extends Component {
             </View>
             */}
             {
-              /*this.props.user.avatar === null ?*/
+              this.props.user.avatar === null ?
                 <View style={[styles.avatar, { backgroundColor: 'lightgray', justifyContent: 'center', alignItems: 'center' }]} >
                   <IconWithBadge name='ios-person' color={'white'} size={80} />
                 </View>
-                /*:
+                :
                 <Image
                   style={[styles.avatar]}
-                  source={{ uri: IMG_URL + this.props.user.avatar }}
+                  source={image === null ?
+                    {
+                      uri: !this.state.videoSource ?
+                        !this.props.updated ? IMG_URL + this.props.user.avatar : this.props.user.avatar
+                        : this.state.videoSource.uri
+                    } : image}
                   defaultSource={require('../../../images/profile.jpeg')}
+                  // onLoadStart={()=>this.setState({showDefault: true})}
+                  onLoadEnd={() => this.setState({ showDefault: false })}
+                  onError={() => this.setState({ error: true })}
                 //Ionicons.getImageSource('ios-person', 80, 'white')
                 //}
                 //{ uri: 'https://bootdey.com/img/Content/avatar/avatar6.png' }
-                /{ uri: IMG_URL + this.props.user.avatar }
-                />*/
+                //{ uri: IMG_URL + this.props.user.avatar }
+                />
               /*</View>*/
+            }
+            {this.state.isEditing ?
+              <TouchableOpacity
+                style={[styles.buttonContainer, { marginBottom: 5 }]}
+                onPress={() => {
+
+                  const options = {
+                    title: 'Select Video',
+                    mediaType: 'image',
+                    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+                    storageOptions: {
+                      skipBackup: true,
+                      path: 'images',
+                    },
+                  };
+
+                  /**
+                   * The first arg is the options object for customization (it can also be null or omitted for default options),
+                   * The second arg is the callback which sends object: response (more info in the API Reference)
+                   */
+                  ImagePicker.launchImageLibrary(options, (response) => {
+                    //console.log('Response = ', response);
+
+                    if (response.didCancel) {
+                      console.log('User cancelled image picker');
+                    } else if (response.error) {
+                      console.log('ImagePicker Error: ', response.error);
+                    } else if (response.customButton) {
+                      console.log('User tapped custom button: ', response.customButton);
+                    } else {
+                      console.log('Image Response: ', response)
+                      const source = {
+                        uri: response.uri,
+                        fileName: response.fileName,
+                        fileSize: response.fileSize,
+                        type: response.type,
+                        path: response.path,
+                      }
+                      //Alert.alert('Image Picked', response.uri)
+                      // You can also display the image using data:
+                      // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+                      this.setState({
+                        videoSource: source,
+                      });
+                    }
+                  });
+
+                }}
+              >
+                {
+                  <Text style={styles.buttontext}>انتخاب عکس</Text>
+
+                }
+
+              </TouchableOpacity>
+
+              :
+              null
             }
             <View style={styles.body}>
               <View style={styles.infoContent}>
                 <View style={{ flexDirection: 'row', paddingBottom: 15 }}>
-                  <Text style={[styles.name,{fontFamily:'IRANSansMobile'}]}>{name}</Text>
+
                   {
-                    //<Text style={styles.job}>برنامه‌نویس اندروید</Text>
+                    !this.state.isEditing ?
+                      <Text style={[styles.name, { fontFamily: 'IRANSansMobile' }]}>{name}</Text>
+                      :
+                      <Input
+                        onChangeText={val => this.onChangeName(val)}
+                        // placeholder={}
+                        value={this.state.name ? this.state.name : name}
+                      // onFocus={() => { this.setState({ name: name }) }}
+                      /*
+                      onBlur={() => {
+                        this.setState({
+                          mobileError: validate('mobile', this.state.mobile)
+                        })
+                      }}
+                      */
+                      ></Input>
                   }
                 </View>
                 <View style={styles.seperator}></View>
@@ -224,7 +318,7 @@ class Profile extends Component {
                     ?
                     <View style={{ flex: 1 }}>
                       {Object.keys(this.props.errors).map((key, index) => (
-                        <Text style={{ fontFamily:'IRANSansMobile', color: 'red' }}>{this.props.errors[key][0]}</Text>
+                        <Text style={{ fontFamily: 'IRANSansMobile', color: 'red' }}>{this.props.errors[key][0]}</Text>
                       ))
                       }
                     </View>
@@ -237,7 +331,7 @@ class Profile extends Component {
                       <View key={'Rows' + index} style={{ width: '100%', alignItems: 'flex-start' }}>
                         <View style={styles.row}>
                           <View style={styles.left}>
-                            <Text style={[styles.leftText,{fontFamily:'IRANSansMobile'}]}>
+                            <Text style={[styles.leftText, { fontFamily: 'IRANSansMobile' }]}>
                               {item.name}:
                           </Text>
                           </View>
@@ -263,7 +357,7 @@ class Profile extends Component {
                               */
                               ></Input>
                               :
-                              <Text style={[styles.rightText, {fontFamily:'IRANSansMobile'}]}>
+                              <Text style={[styles.rightText, { fontFamily: 'IRANSansMobile' }]}>
                                 {item.value}
                               </Text>
                             }
@@ -277,7 +371,7 @@ class Profile extends Component {
                       <View key={'Rows' + index} style={{ width: '100%', alignItems: 'flex-start' }}>
                         <View style={styles.row}>
                           <View style={styles.left}>
-                            <Text style={[styles.leftText,{fontFamily:'IRANSansMobile'}]}>
+                            <Text style={[styles.leftText, { fontFamily: 'IRANSansMobile' }]}>
                               {item.name}:
                           </Text>
                           </View>
@@ -303,7 +397,7 @@ class Profile extends Component {
                               */
                               ></Input>
                               :
-                              <Text style={[styles.rightText,{fontFamily:'IRANSansMobile'}]}>
+                              <Text style={[styles.rightText, { fontFamily: 'IRANSansMobile' }]}>
                                 {item.value}
                               </Text>
                             }
@@ -314,39 +408,36 @@ class Profile extends Component {
                     ))
                 }
                 <View style={[styles.seperator, { marginTop: 20 }]}></View>
-                {/*
-                <TouchableOpacity
-                  style={styles.buttonContainer}
-                  onPress={() => {
-                    this.setState({
-                      isEditing: !this.state.isEditing
-                    }, () => {
-                      !this.state.isEditing
-                        ?
-                        this.state.userInfo
+                {
+                  <TouchableOpacity
+                    style={styles.buttonContainer}
+                    onPress={() => {
+                      this.setState({
+                        isEditing: !this.state.isEditing
+                      }, () => {
+                        !this.state.isEditing
                           ?
                           this.props.actions.updateUser(
+                            this.state.videoSource ? this.state.videoSource : null,
+                            this.state.name ? this.state.name : null,
                             this.props.userId,
-                            this.state.userInfo,
-                            this.props.user,
                             this.props.token
                           )
-                          : null
+                          :
+                          null
+                      })
+                    }}
+                  >
+                    {
+                      this.state.isEditing
+                        ?
+                        <Text style={styles.buttontext}>ثبت اطلاعات</Text>
                         :
-                        null
-                    })
-                  }}
-                >
-                  {
-                    this.state.isEditing
-                      ?
-                      <Text style={styles.buttontext}>ثبت اطلاعات</Text>
-                      :
-                      <Text style={styles.buttontext}>ویرایش اطلاعات</Text>
-                  }
+                        <Text style={styles.buttontext}>ویرایش اطلاعات</Text>
+                    }
 
-                </TouchableOpacity>
-                */
+                  </TouchableOpacity>
+
                 }
               </View>
             </View>
@@ -368,7 +459,7 @@ class Profile extends Component {
             opacity: this.state.showMenu ? 1 : 0
           }}>
           <Button transparent onPress={() => this.props.actions.logOut()}>
-            <Text style={{ fontFamily:'IRANSansMobile', color: 'black' }}>خروج</Text>
+            <Text style={{ fontFamily: 'IRANSansMobile', color: 'black' }}>خروج</Text>
             <Icon name="log-out" color={colors.primary} />
           </Button>
         </View>
@@ -418,7 +509,8 @@ function mapStateToProps(state, ownProps) {
     token: state.authReducer.token,
     userId: state.authReducer.user.user_id,
     user: state.authReducer.user,
-    errors: state.authReducer.errors
+    errors: state.authReducer.errors,
+    updated: state.authReducer.updated,
     //myCourses: state.appReducer.myCourses,
     //myCoursesMeta: state.appReducer.myCoursesMeta
   };
