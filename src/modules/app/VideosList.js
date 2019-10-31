@@ -35,6 +35,8 @@ import Axios from "axios";
 import ImagePicker from 'react-native-image-picker';
 var RNFS = require('react-native-fs');
 import RNFetchBlob from 'rn-fetch-blob'
+import HTML from 'react-native-render-html';
+import {IGNORED_TAGS} from 'react-native-render-html/src/HTMLUtils';
 
 class School extends Component {
 
@@ -130,9 +132,13 @@ class School extends Component {
                 }}
               >
 
+                { <HTML html={this.props.content} imagesMaxWidth={Dimensions.get('window').width}/>
+                }
+{/*
                 <Text style={{ fontFamily: 'IRANSansMobile', color: 'black', paddingVertical: 10 }}>
                   {this.props.content}
                 </Text>
+*/            }
                 <View
                   style={{
                     width: '100%',

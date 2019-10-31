@@ -48,6 +48,8 @@ const deviceWidth = Dimensions.get("window").width;
 import { Navigation } from 'react-native-navigation'
 import axios from 'axios';
 //import API_URL from '../../constants/api'
+import HTML from 'react-native-render-html';
+import {IGNORED_TAGS} from 'react-native-render-html/src/HTMLUtils';
 
 class CoursePreview extends Component {
   static options(passProps) {
@@ -230,6 +232,9 @@ class CoursePreview extends Component {
                       }}
                       source={{ uri: IMG_URL + course.thumb }}
                     />
+                    <HTML html={course.content}/>
+                    
+                    {/*
                     <Text
                       style={{
                         fontSize: 16,
@@ -239,7 +244,8 @@ class CoursePreview extends Component {
                         color: 'black'
                       }}>
                       {course.content}
-                    </Text>
+                    </Text>*/
+                    }
                   </Body>
                 </CardItem>
               </Card>
@@ -317,7 +323,7 @@ class CoursePreview extends Component {
                                 top: -20,
                                 right: 0,
                                 padding: 5,
-                                width: '40%',
+                                width: '50%',
                                 height: 45,
                                 justifyContent: 'center',
                                 alignItems: 'center',
@@ -333,16 +339,19 @@ class CoursePreview extends Component {
                                   //position: 'relative',
                                   //top: -25,
                                   //right: 0,
-                                  fontSize: 19,
+                                  fontSize: 17,
                                   fontFamily: 'IRANSansMobile',
                                   color: 'white',
                                   //paddingBottom: 5,
                                   //backgroundColor: colors.primary,
                                 }} >
-                                {ep.title}
+			    {`فصل ${idx+1}`}
                               </Text>
                             </View>
 
+                            {//<HTML html={ep.content}/>
+                            }
+                            
                             <Text
                               numberOfLines={3}
                               style={{
@@ -358,8 +367,9 @@ class CoursePreview extends Component {
                                 borderRadius: 4,
                                 textAlign: 'justify'
                               }} >
-                              {ep.content}
+                              {ep.title}
                             </Text>
+                            
                           </TouchableOpacity>
                         </CardItem>
                       </Card>

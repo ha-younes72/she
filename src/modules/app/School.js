@@ -30,6 +30,8 @@ import { IMG_URL } from "../../constants/api";
 import ProgressBar from '../_global/ProgressBar';
 import IconWithBadge from "../_global/Icons";
 import { Input } from "react-native-elements";
+import HTML from 'react-native-render-html';
+import {IGNORED_TAGS} from 'react-native-render-html/src/HTMLUtils';
 
 class School extends Component {
 
@@ -231,13 +233,14 @@ class School extends Component {
                             }}
                             source={{ uri: IMG_URL + item.thumb }}
                           />
-                          {
+                          
+                          {//<HTML html={item.content}/>
+                          }
+                          {/*
                             <Text numberOfLines={7} style={{ fontFamily: 'IRANSansMobile', textAlign: 'justify' }}>
                               {item.content}
-                              {/*item.topics.data.map((topic, index) => (
-                              topic.title
-                            ))*/}
-                            </Text>
+                              
+                            </Text>*/
                           }
                         </Body>
                       </CardItem>

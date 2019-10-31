@@ -22,6 +22,7 @@
     "react-native-image-picker": "0.x.x",
     "react-native-navigation": "^2.26.3",
     "react-native-navigation-bar-color": "^0.1.0",
+    "react-native-render-html": "^4.1.2",
     "react-native-vector-icons": "^6.6.0",
     "react-native-video": "4.x.x",
     "react-redux": "^7.1.0",

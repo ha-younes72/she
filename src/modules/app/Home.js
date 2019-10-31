@@ -34,6 +34,8 @@ import { Input } from "react-native-elements";
 import { Navigation } from "react-native-navigation";
 //import Orientation from 'react-native-ori'
 //const IMG_URL = 'http://mastershe.ir'
+import HTML from 'react-native-render-html';
+import {IGNORED_TAGS} from 'react-native-render-html/src/HTMLUtils';
 
 class Home extends Component {
 
@@ -196,9 +198,13 @@ class Home extends Component {
                               }}
                               source={{ uri: IMG_URL + item.thumb }}
                             />
+                            {//<HTML html={item.content}/>
+                            }
+                            {/*
                             <Text numberOfLines={3} style={{ textAlign: 'justify', fontFamily: 'IRANSansMobile' }}>
                               {item.content}
-                            </Text>
+                            </Text>*/
+                            }
                           </Body>
                         </CardItem>
                         <CardItem bordered style={{ paddingVertical: 0 }}>
